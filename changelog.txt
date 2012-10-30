@@ -1,0 +1,54 @@
+Changelog:
+
+CORREGIDO!!!
+-Afiliados:
+Corregidas las consultas, eliminados los globals que no se usan.
+
+-bk-last-user.php
+eliminadas algunas lineas. Agregado el array en la consulta, e indentado el codigo
+
+-News
+bknews.php -> Corregido un poco el codigo agregando algunos ifs para la secciones y eliminando cargas innecesarias.
+
+
+-FaQ:
+Permisos
+Guardar los valores del settings
+LoadFAQMain() - Sacadas consultas dentro del while...
+UPFaq.php - Eliminados Globals no usados y estructuradas las consultas.
+
+-Sub-UltimatePortal.php
+Terminado: Borrar globales y $db_prefix que no se usan.
+
+-Main Links:
+LoadMainLinks() - Agregado un parametro para saber quien lo llama y en base a eso hacer la consulta mas liviana.
+bk-menu.php - Agregado el parametro 
+
+-Board News:
+bk-boards-news.php - Sacados el loadmember para optimizarlo y globales.
+
+-NEWS:
+Globales y consultas..
+
+-About:
+-Globales
+
+Revisar:
+
+Por hacer!!!!
+-Afiliados:
+Ver el tema del movimiento ya que <marquee> no fue depreciado..
+
+-UPNews:
+ShowNewsMain() -> Intentar de unificar todo en una sola consulta y sacarlo de adentro del while.
+DeleteNew() -> Revisar la redireccion para ver de optimizar.
+
+-Sub-UltimatePortal.php
+Revisar Todas las consultas
+LoadID_MEMBER($memberName) -> Ponerle Limit 1 
+upSSI_BoardNews() - Genera una consulta por cada tema que muestra... habria que optimizarlo..
+LoadBlockNews() - Genera una consulta por cada noticia que muestra... habria que optimizarlo..
+LoadStaffMembers() - Tiene consultas dentro de whiles y se podria usar el loadmemberdata.
+
+UltimatePortal.php
++ Nuevo codigo de google analytic
