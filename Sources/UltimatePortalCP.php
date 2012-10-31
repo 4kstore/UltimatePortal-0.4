@@ -112,8 +112,7 @@ function ShowPreferencesMain()
 function ShowPreferencesGralSettings()
 {
 	global $context, $txt, $sourcedir;	
-	if(empty($_POST['save']))
-		checkSession('get');
+
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 
 	if (!empty($_POST['save']))
@@ -130,7 +129,6 @@ function ShowPreferencesLangMaintenance()
 {
 	global $context, $txt, $sourcedir;
 
-	checkSession('get');
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 
 	//Load all Language from language folder
@@ -143,8 +141,6 @@ function ShowPreferencesLangMaintenance()
 function UltimatePortalEditLangs()
 {
 	global $context, $txt, $sourcedir;
-	if(empty($_POST['save']) && empty($_POST['duplicate']) && empty($_POST['editing']))
-		checkSession('get');
 
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 
@@ -195,9 +191,6 @@ function UltimatePortalEditLangs()
 function ShowPreferencesPermissionsSettings()
 {
 	global $context, $txt, $smcFunc, $sourcedir;
-
-	if(empty($_POST['save']) && empty($_POST['view-perms']))
-		checkSession('get');
 
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 	
@@ -270,7 +263,6 @@ function ShowPortalMenuSettings()
 {
 	global $context, $txt, $sourcedir;
 
-	checkSession('get');
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 
 	//Load the Main links from BD
@@ -354,10 +346,7 @@ function AddMainLinks()
 function EditMainLinks()
 {
 	global $context, $txt, $smcFunc, $sourcedir;
-	
-	if(empty($_POST['save']))
-		checkSession('get');
-		
+			
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 	
 	if (empty($_REQUEST['id']))
@@ -431,8 +420,7 @@ function DeleteMainLinks()
 	
 	if (empty($_REQUEST['id']))
 		redirectexit('action=admin;area=preferences;sa=portal-menu');	
-
-	checkSession('get');
+		
 	$id = (int) $_REQUEST['id'];
 	
 	$myquery = $smcFunc['db_query']('',"
@@ -449,10 +437,7 @@ function DeleteMainLinks()
 function ShowSEO()
 {
 	global $context, $txt, $sourcedir, $boarddir, $smcFunc, $ultimateportalSettings;
-
-	if(empty($_POST['save_robot']) && empty($_POST['save_seo_config']) && empty($_POST['save_seo_google_verification_code']))
-		checkSession('get');
-		
+	
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 
 	//Save Robot
@@ -506,7 +491,6 @@ function ShowSEO()
 	//Delete google Verification Code?
 	if(!empty($_REQUEST['file']))
 	{
-		checkSession('get');
 		$verification = $smcFunc['db_escape_string']($_REQUEST['file']);
 		unlink($boarddir . '/'. $verification . '.html');
 		$verifications_codes = explode(',', $ultimateportalSettings['seo_google_verification_code']);
@@ -593,10 +577,7 @@ function ShowMBAdd()
 {
 	global $context, $txt, $sourcedir, $smcFunc;
 	require_once($sourcedir . '/Subs-UltimatePortal-Init-Blocks.php');	
-	
-	if (empty($_POST['next']) && empty($_POST['save']))
-		checkSession('get');				
-	
+		
 	if(!empty($_POST['next']))
 	{
 		checkSession('post');		
@@ -695,9 +676,6 @@ function ShowMBEdit()
 	SpecificMultiBlocks($context['idmbk']);
 	//Loads all blocks
 	LoadsBlocksForMultiBlock(false);
-	
-	if (empty($_POST['next']) && empty($_POST['save']) && empty($_POST['back']))
-		checkSession('get');				
 	
 	if(!empty($_POST['next']))
 	{
@@ -821,7 +799,6 @@ function ShowMBDelete()
 	if (!isset($_REQUEST['id']))
 		redirectexit('action=admin;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
 
-	checkSession('get');
 	$id = (int) $_REQUEST['id'];
 
 	//Load Specific
