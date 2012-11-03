@@ -647,103 +647,121 @@ function template_preferences_seo()
 {
 	global $context, $txt, $settings, $scripturl, $ultimateportalSettings;
 	
-	//Add Main Link
-	echo	'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=seo" accept-charset="', $context['character_set'], '">												
-		<table width="', !empty($context['robots_txt']) ? '82%' : '60%', '" align="center" class="tborder" cellspacing="1" cellpadding="5" border="0">
-			<tr>
-				<td class="catbg" align="left" colspan="2">	
-					<img alt="',$txt['ultport_seo_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/config.png"/>&nbsp;', $txt['seo_robots_title'], '
-				</td>
-			</tr>			
-			<tr>
-				<td valign="top" width="30%" class="windowbg">									
-					', $txt['seo_robots_txt'], '
-				</td>
-				<td width="70%" class="windowbg">
-					<strong>', $txt['seo_robots_added'] ,'</strong><br/>
-					<textarea id="robots_add" name="robots_add" rows="20" cols="80">', !empty($context['robots_txt']) ? $context['robots_txt'] : '' ,'</textarea>
-				</td>			
-			</tr>	
-			<tr>
-				<td align="center" colspan="2">	
+	echo'
+	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=seo" accept-charset="', $context['character_set'], '">
+	<div id="admincenter">
+		<div class="cat_bar">
+			<h3 class="catbg">
+				<img alt="',$txt['ultport_seo_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/config.png"/>&nbsp;', $txt['seo_robots_title'], '
+			</h3>
+		</div>												
+		<div class="windowbg2">
+			<span class="topslice"><span></span></span>
+			<div class="content">
+				<dl class="settings">
+					<dt>
+						<span><label for="seo_robots_txt">', $txt['seo_robots_txt'], '</label></span>
+					</dt>
+					<dd>
+						<strong>', $txt['seo_robots_added'] ,'</strong><br/>
+						<textarea id="robots_add" name="robots_add" rows="20" cols="80">', !empty($context['robots_txt']) ? $context['robots_txt'] : '' ,'</textarea>
+					</dd>
+				</dl>					
+				<hr class="hrcolor clear" />
+				<div class="righttext">
 					<input type="hidden" name="sc" value="', $context['session_id'], '" />
 					<input type="submit" name="save_robot" value="',$txt['ultport_button_save'],'" />
-				</td>
-			</tr>
-		</table><br />
-		<table width="', !empty($context['robots_txt']) ? '82%' : '60%', '" align="center" class="tborder" cellspacing="1" cellpadding="5" border="0">
-			<tr>
-				<td class="catbg" align="left" colspan="2">	
-					<img alt="',$txt['ultport_seo_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/config.png"/>&nbsp;', $txt['seo_config'], '
-				</td>
-			</tr>			
-			<tr>
-				<td valign="top" align="left" width="50%" class="windowbg">									
-					', $txt['seo_title_key_word'], '
-				</td>
-				<td width="50%" align="center" class="windowbg2">
-					<input type="text" name="seo_title_keyword" size="50" maxlength="200" ',!empty($ultimateportalSettings['seo_title_keyword']) ? 'value="'.$ultimateportalSettings['seo_title_keyword'].'"' : '','/>				
-				</td>			
-			</tr>	
-			<tr>
-				<td valign="top" align="left" width="50%" class="windowbg">									
-					', $txt['seo_google_analytics'], '
-				</td>
-				<td width="50%" align="center" class="windowbg2">
-					<input type="text" name="seo_google_analytics" size="20" maxlength="50" ',!empty($ultimateportalSettings['seo_google_analytics']) ? 'value="'.$ultimateportalSettings['seo_google_analytics'].'"' : '','/>
-				</td>			
-			</tr>				
-			<tr>
-				<td align="center" colspan="2">	
+				</div>	
+			</div>	
+			<span class="botslice"><span></span></span>	
+		</div>		
+	</div>
+	</form>';	
+	echo'
+	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=seo" accept-charset="', $context['character_set'], '">
+	<div id="admincenter">
+		<div class="cat_bar">
+			<h3 class="catbg">
+				<img alt="',$txt['ultport_seo_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/config.png"/>&nbsp;', $txt['seo_config'], '
+			</h3>
+		</div>												
+		<div class="windowbg2">
+			<span class="topslice"><span></span></span>
+			<div class="content">
+				<dl class="settings">
+					<dt>
+						<span><label for="seo_title_key_word">', $txt['seo_title_key_word'], '</label></span>
+					</dt>
+					<dd>
+						<input type="text" name="seo_title_keyword" size="50" maxlength="200" ',!empty($ultimateportalSettings['seo_title_keyword']) ? 'value="'.$ultimateportalSettings['seo_title_keyword'].'"' : '','/>
+					</dd>
+					<dt>
+						<span><label for="seo_google_analytics">', $txt['seo_google_analytics'], '</label></span>
+					</dt>
+					<dd>
+						<input type="text" name="seo_google_analytics" size="20" maxlength="50" ',!empty($ultimateportalSettings['seo_google_analytics']) ? 'value="'.$ultimateportalSettings['seo_google_analytics'].'"' : '','/>
+					</dd>
+				</dl>					
+				<hr class="hrcolor clear" />
+				<div class="righttext">
 					<input type="hidden" name="sc" value="', $context['session_id'], '" />
 					<input type="submit" name="save_seo_config" value="',$txt['ultport_button_save'],'" />
-				</td>
-			</tr>
-		</table>
-		<br />
-		<table width="', !empty($context['robots_txt']) ? '82%' : '60%', '" align="center" class="tborder" cellspacing="1" cellpadding="5" border="0">
-			<tr>
-				<td class="catbg" align="left" colspan="2">	
-					<img alt="',$txt['seo_google_verification_code_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/config.png"/>&nbsp;', $txt['seo_google_verification_code_title'], '
-				</td>
-			</tr>			
-			<tr>
-				<td valign="top" align="left" width="50%" class="windowbg">									
-					', $txt['seo_google_verification_code'], '
-				</td>
-				<td width="50%" align="center" class="windowbg2">
-					<input type="text" name="seo_google_verification_code" size="50" maxlength="200" />';
-				if(!empty($ultimateportalSettings['seo_google_verification_code']))	
-				{
-					$verifications_codes = explode(',', $ultimateportalSettings['seo_google_verification_code']);
-					$count = count($verifications_codes);
-					echo '	
-					<div align="left">
-						<ul style="list-style-image:none;list-style-position:outside;list-style-type:none;">';
-					for($i = 0; $i <= $count; $i++)
-					{
-						if(!empty($verifications_codes[$i]))
+				</div>	
+			</div>	
+			<span class="botslice"><span></span></span>	
+		</div>		
+	</div>
+	</form>';
+	echo'
+	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=seo" accept-charset="', $context['character_set'], '">
+	<div id="admincenter">
+		<div class="cat_bar">
+			<h3 class="catbg">
+				<img alt="',$txt['seo_google_verification_code_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/config.png"/>&nbsp;', $txt['seo_google_verification_code_title'], '
+			</h3>
+		</div>												
+		<div class="windowbg2">
+			<span class="topslice"><span></span></span>
+			<div class="content">
+				<dl class="settings">
+					<dt>
+						<span><label for="seo_google_verification_code">', $txt['seo_google_verification_code'], '</label></span>
+					</dt>
+					<dd>
+						<input type="text" name="seo_google_verification_code" size="50" maxlength="200" />';
+						if(!empty($ultimateportalSettings['seo_google_verification_code']))	
 						{
+							$verifications_codes = explode(',', $ultimateportalSettings['seo_google_verification_code']);
+							$count = count($verifications_codes);
 							echo '	
-							<li style="background:transparent url(', $settings['default_theme_url'] ,'/images/ultimate-portal/download/menu.png) no-repeat scroll 2px 50%;padding-left:16px;">', $verifications_codes[$i] ,'.html&nbsp;<a href="', $scripturl ,'?action=admin;area=preferences;sa=seo;file=', $verifications_codes[$i] ,';' . $context['session_var'].'=', $context['session_id'] ,'"><img src="', $settings['default_theme_url'] ,'/images/pm_recipient_delete.gif" alt="', $txt['ultport_button_delete'] ,'" title="', $txt['ultport_button_delete'] ,'" /></a></li>';	
+							<div align="left">
+								<ul style="list-style-image:none;list-style-position:outside;list-style-type:none;">';
+							for($i = 0; $i <= $count; $i++)
+							{
+								if(!empty($verifications_codes[$i]))
+								{
+									echo '	
+									<li style="background:transparent url(', $settings['default_theme_url'] ,'/images/ultimate-portal/download/menu.png) no-repeat scroll 2px 50%;padding-left:16px;">', $verifications_codes[$i] ,'.html&nbsp;<a href="', $scripturl ,'?action=admin;area=preferences;sa=seo;file=', $verifications_codes[$i] ,';' . $context['session_var'].'=', $context['session_id'] ,'"><img src="', $settings['default_theme_url'] ,'/images/pm_recipient_delete.gif" alt="', $txt['ultport_button_delete'] ,'" title="', $txt['ultport_button_delete'] ,'" /></a></li>';	
+								}
+							}
+							echo '
+								</ul>
+							</div>';
 						}
-					}
-					echo '
-						</ul>
-					</div>';
-				}
-	echo '				
-				</td>			
-			</tr>	
-			<tr>
-				<td align="center" colspan="2">	
+					echo'		
+					</dd>
+					
+				</dl>					
+				<hr class="hrcolor clear" />
+				<div class="righttext">
 					<input type="hidden" name="sc" value="', $context['session_id'], '" />
 					<input type="submit" name="save_seo_google_verification_code" value="',$txt['ultport_button_save'],'" />
-				</td>
-			</tr>
-		</table>		
-	</form>';	
+				</div>	
+			</div>	
+			<span class="botslice"><span></span></span>	
+		</div>		
+	</div>
+	</form>';
 }
 
 function template_mb_main()
@@ -1234,5 +1252,3 @@ function template_mb_edit_1()
 	</div><!-- div admincenter -->
 	<br class="clear">';
 }
-
-?>
