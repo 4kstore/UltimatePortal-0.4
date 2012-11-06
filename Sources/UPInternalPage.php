@@ -53,7 +53,7 @@ function Main()
 		'name' => $txt['up_module_ipage_title']
 	);
 	$context['sub_template'] = 'main';
-	$context['page_title'] = $txt['up_module_title'] . ' - ' . $txt['up_module_ipage_title'];
+	$context['page_title'] = $txt['up_module_ipage_title'];
 
 }
 
@@ -110,10 +110,11 @@ function Add()
 		if (empty($_POST['title']))
 			fatal_lang_error('ultport_error_no_add_ipage_title',false);
 
-		$title = up_convert_savedbadmin($_POST['title']);
+		$title = (string)$smcFunc['htmlspecialchars']($_POST['title']);
 		$column_left = !empty($_POST['column_left']) ? (int)$_POST['column_left'] : 0;
 		$column_right = !empty($_POST['column_right']) ? (int)$_POST['column_right'] : 0;
-		$content = ($_POST['type_ipage'] == 'html') ? up_convert_savedbadmin($_POST['elm1']) : (string)$smcFunc['htmlspecialchars']($_POST['ipage_content'], ENT_QUOTES);			
+		$content = ($_POST['type_ipage'] == 'html') ? $_POST['elm1'] : (string)$smcFunc['htmlspecialchars']($_POST['ipage_content'], ENT_QUOTES);	
+		$content = $smcFunc['htmltrim']($content, ENT_QUOTES);
 		$id_member = (int) $user_info['id'];
 		$username = (string) $user_info['username'];
 		$date_created = time();
@@ -199,10 +200,11 @@ function Edit()
 		checkSession('post');
 		if (empty($_POST['title']))
 			fatal_lang_error('ultport_error_no_add_ipage_title',false);
-		$title = up_convert_savedbadmin($_POST['title']);
+		$title = (string)$smcFunc['htmlspecialchars']($_POST['title']);
 		$column_left = !empty($_POST['column_left']) ? (int)$_POST['column_left'] : 0;
 		$column_right = !empty($_POST['column_right']) ? (int) $_POST['column_right'] : 0;
-		$content = ($_POST['type_ipage'] == 'html') ? up_convert_savedbadmin($_POST['elm1']) : (string)$smcFunc['htmlspecialchars']($_POST['ipage_content'], ENT_QUOTES);
+		$content = ($_POST['type_ipage'] == 'html') ? $_POST['elm1'] : (string)$smcFunc['htmlspecialchars']($_POST['ipage_content']);
+		$content = $smcFunc['htmltrim']($content, ENT_QUOTES);
 		$id_member_updated = (int) $user_info['id'];
 		$username_updated = (string) $user_info['username'];
 		$date_updated = time();

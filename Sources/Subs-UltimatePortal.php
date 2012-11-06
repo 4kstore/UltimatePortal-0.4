@@ -1974,10 +1974,10 @@ function LoadInternalPage($id, $condition = "WHERE active = 'on'")
 		$ipage = &$context['ipage'][];
 		$ipage['id'] = $row['id'];
 		$context['id'] = $row['id'];
-		$ipage['title'] = '<a href="'. $scripturl .'?action=internal-page;sa='. (isset($context['is_inactive_page']) ? 'view-inactive' : 'view') .';id='. $row['id'] .'">'. stripslashes($row['title']) .'</a>';
+		$ipage['title'] = '<a href="'. $scripturl .'?action=internal-page;sa='. (isset($context['is_inactive_page']) ? 'view-inactive' : 'view') .';id='. $row['id'] .'">'. $row['title'] .'</a>';
 		$context['title'] = $row['title'];
 		if(!empty($id))
-			$context['title'] = stripslashes($row['title']);
+			$context['title'] = $row['title'];
 		$ipage['sticky'] = $row['sticky'];
 		$context['sticky'] = $row['sticky'];
 		$ipage['active'] = $row['active'];
@@ -2036,13 +2036,36 @@ function LoadInternalPage($id, $condition = "WHERE active = 'on'")
 }
 
 //Social Bookmarks
-function UpSocialBookmarks($url)
+function UpSocialBookmarks($url, $size="big")
 {
 	global $txt, $settings;
 
 	//The language for this function, is in UltimatePortal.yourlanguage.php
-
-	// Load Language
+	$social_bookmarks = '';
+	if($size == 'small')	
+		$social_bookmarks = '
+		<!-- AddThis Button BEGIN -->
+		<div class="addthis_toolbox addthis_default_style ">
+		<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+		<a class="addthis_button_tweet"></a>
+		<a class="addthis_button_pinterest_pinit"></a>
+		<a class="addthis_counter addthis_pill_style"></a>
+		</div>
+		<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-5095ae2174f7282f"></script>
+		<!-- AddThis Button END -->';
+	
+	if($size == 'big')
+		$social_bookmarks = '
+		<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+		<a class="addthis_button_preferred_1"></a>
+		<a class="addthis_button_preferred_2"></a>
+		<a class="addthis_button_preferred_3"></a>
+		<a class="addthis_button_preferred_4"></a>
+		<a class="addthis_button_compact"></a>
+		<a class="addthis_counter addthis_bubble_style"></a>
+		</div>
+		<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-5095ad5a1bae3fb4"></script>';
+	/*// Load Language
 	if (loadlanguage('UltimatePortal') == false)
 		loadLanguage('UltimatePortal','english');
 
@@ -2066,7 +2089,7 @@ function UpSocialBookmarks($url)
 					<a href="'.$digg.''.$url.'" target="_blank"><img src="'.$settings['default_images_url'].'/ultimate-portal/social-bookmarks/digg.png" alt=" | digg" title="digg" /></a>
 				</td>
 			</tr>
-		</table>';
+		</table>';*/
 
 	return $social_bookmarks;
 }

@@ -171,7 +171,9 @@ function head_block($icon, $title, $id_block = 0, $bk_collapse = 'on', $bk_no_ti
 	
 	//Now control if your theme, it's "Curve" or "Variation Curve"	
 	echo '
-	', (!empty($ultimateportalSettings['up_use_curve_variation']) ? '<span '. (!empty($bk_style) ? 'class="clear upperframe"' : '').'><span></span></span><div '. (!empty($bk_style) ? 'class="roundframe"' : '').'><div '. (!empty($bk_style) ? 'class="innerframe"' : '').'><div '. (!empty($bk_style) ? 'class="cat_bar"' : '') .'><h3 style="font-size:12px;" '. (!empty($bk_style) ? 'class="catbg"' : '') .'><span class="left"></span>' : '<table '. (!empty($bk_style) ? 'class="tborder"' : '') .' border="0" width="100%" cellpadding="5" cellspacing="1"><div '. (!empty($bk_style) ? 'class="catbg"' : '') .' width="100%" valign="middle" align="left">') ,'
+	', (!empty($ultimateportalSettings['up_use_curve_variation']) ? 
+			'<span '. (!empty($bk_style) ? 'class="clear upperframe"' : '').'><span></span></span><div '. (!empty($bk_style) ? 'class="roundframe"' : '').'><div '. (!empty($bk_style) ? 'class="innerframe"' : '').'><div '. (!empty($bk_style) ? 'class="cat_bar"' : '') .'><h3 style="font-size:12px;" '. (!empty($bk_style) ? 'class="catbg"' : '') .'><span class="left"></span>' 
+		: '<table '. (!empty($bk_style) ? 'class="tborder"' : '') .' border="0" width="100%" cellpadding="5" cellspacing="1"><div '. (!empty($bk_style) ? 'class="catbg"' : '') .' width="100%" valign="middle" align="left">') ,'
 		'.((!empty($ultimateportalSettings['ultimate_portal_enable_icons']) && empty($bk_no_title)) ? $icon : ''). (empty($bk_no_title) ? $title : '');
 		if (!empty($id_block) && !empty($bk_collapse))					
 			echo '											
