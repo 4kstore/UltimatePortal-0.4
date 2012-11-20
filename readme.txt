@@ -1,11 +1,11 @@
-[center][img width=600 height=80]http://www.smfsimple.com/img/ultimateportallogo.png[/img][/center][center][color=orange][size=12pt][b]Ultimate Portal By Smfsimple Ya esta Aqui![/b][/size][/color][/center][center]Ultimate Portal 0.3 esta disponible para la version estable de SMF. [color=red][b]SMF 2.0[/b][/color][/center][color=orange][size=12pt][b]Caracteristicas generales UP 0.3:[/b][/size][/color]
+[center][img width=600 height=80]http://www.smfsimple.com/img/ultimateportallogo.png[/img][/center][center][color=orange][size=12pt][b]Ultimate Portal By Smfsimple Ya esta Aqui![/b][/size][/color][/center][center]Ultimate Portal 0.3 esta disponible para la version estable de SMF. [color=red][b]SMF 2.0[/b][/color][/center][color=orange][size=12pt][b]Caracteristicas generales UP 0.4:[/b][/size][/color]
 o Es totalmente gratuito! 
 o Consta de soporte gratuito las 24hs del dia!
 o Se adapta perfectamente a cualquier estilo que tu foro tenga.
 o La administracion es sumamente intuitiva, no necesitaras ser un experto para conseguir lo que quieras para tu foro!
 
-[color=orange][size=12pt][b]Que tiene la version 0.3 que no tenga la 0.2?[/b][/size][/color]
-La version 0.3 de ultimate Portal se redise&#241;o para que el portal tenga un mejor rendimiento y dise&#241;o en todo aspecto.
+[color=orange][size=12pt][b]Que tiene la version 0.4 que no tenga la 0.3?[/b][/size][/color]
+La version 0.4 de ultimate Portal se redise&#241;o para que el portal tenga un mejor rendimiento y dise&#241;o en todo aspecto.
 Se agrego el idioma espa&#241;ol por defecto para que no tengas que instalar paquetes de idiomas aparte.
 Se repararon peque&#241;os bugs encontrados que afectaban al ssi y al wap.
 
