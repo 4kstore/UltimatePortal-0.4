@@ -2,7 +2,7 @@
 <!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>vicram10:UltimatePortal</id>
-	<name>Ultimate Portal 0.4 By SMFSimple.com</name>
+	<name>Up 0.4 by smfsimple.com</name>
 	<type>modification</type>
 	<version>0.4</version>
 	<install for="2.0 - 2.99.99">
