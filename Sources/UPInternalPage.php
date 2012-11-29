@@ -12,17 +12,17 @@ if (!defined('SMF'))
 function UPInternalPageMain()
 {
 	global $sourcedir, $context, $ultimateportalSettings;
-	loadtemplate('UPInternalPage');
 
-	if (loadlanguage('UPInternalPage') == false)
-		loadLanguage('UPInternalPage','english');
+	//load template and language
+	loadtemplate('UPInternalPage');
+	loadLanguage('UPInternalPage');
 
 	//Is active the Internal Page module?
 	if(empty($ultimateportalSettings['ipage_enable']))
 		fatal_lang_error('ultport_error_no_active',false);
 
 	$subActions = array(
-		'main' => 'Main',
+		'main' => 'IPMain',
 		'view' => 'View',
 			'add' => 'Add',		
 			'edit' => 'Edit',
@@ -31,9 +31,10 @@ function UPInternalPageMain()
 		'view-inactive' => 'ViewInactive',		
 	);	
 	$_REQUEST['sa'] = (!empty($_REQUEST['sa']) && !empty($subActions[$_REQUEST['sa']])) ? $_REQUEST['sa'] : 'main';
-	call_user_func($subActions[$_REQUEST['sa']]);
+	$subActions[$_REQUEST['sa']]();	
 }
-function Main()
+
+function IPMain()
 {
 	global $context, $scripturl, $txt, $settings, $ultimateportalSettings;
 
@@ -54,7 +55,6 @@ function Main()
 	);
 	$context['sub_template'] = 'main';
 	$context['page_title'] = $txt['up_module_ipage_title'];
-
 }
 
 function View()
@@ -150,7 +150,7 @@ function Add()
 	//Load the Editor HTML or BBC?
 	if ($_REQUEST['type'] == 'html')
 	{
-		context_html_headers();
+		context_html_headers("elm1");
 		$type_ipage_linktree = $txt['up_ipage_add_html'];
 	}	
 	if ($_REQUEST['type'] == 'bbc')

@@ -138,19 +138,19 @@ function up_get_column($position)
 										$content = "".stripslashes($row['content'])."";
 									}
 									//Print
-									$title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .'">'. $title .'</a>' : $title;
+									$title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .'">'. $title .'</a>' : $title;
 									head_block($icon, $title, $id_block, $row['bk_collapse'], $row['bk_no_title'], $row['bk_style']);
 									echo $content;
 									footer_block(trim($row['bk_style']));
 									break;
 						 // PHP Block								
-						case '2':   $title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=created">'. $title .'</a>' : $title;
+						case '2':   $title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=created">'. $title .'</a>' : $title;
 									head_block($icon, $title, $id_block, $row['bk_collapse'], $row['bk_no_title'], $row['bk_style']);
 									require_once($boarddir."/up-php-blocks/".$row['file']);
 									footer_block(trim($row['bk_style']));
 									break;
 						 // System Block			
-						default:    $title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=system">'. $title .'</a>' : $title;
+						default:    $title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=system">'. $title .'</a>' : $title;
 									head_block($icon, $title, $id_block, $row['bk_collapse'], $row['bk_no_title'], $row['bk_style']);
 									require_once($boarddir."/up-blocks/".$row['file']);
 									footer_block(trim($row['bk_style']));
@@ -397,7 +397,7 @@ function up_print_MultiBlock($position)
 		<td>';
 		foreach($context['block-'.$position] as $multiblock)		
 		{
-			$title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=admin;area=multiblock;sa=edit;id='. $multiblock['id'] .';'. $context['session_var'] .'='. $context['session_id'] .'">'. $multiblock['mbtitle'] .'</a>' : $multiblock['mbtitle'];
+			$title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=adminportal;area=multiblock;sa=edit;id='. $multiblock['id'] .';'. $context['session_var'] .'='. $context['session_id'] .'">'. $multiblock['mbtitle'] .'</a>' : $multiblock['mbtitle'];
 			head_block('up-multiblock', $title, '-'.$multiblock['id'], $multiblock['mbk_collapse'], $multiblock['mbk_title'], $multiblock['mbk_style']);
 			
 			switch($multiblock['design']) 
@@ -700,19 +700,19 @@ function up_get_MBcolumn($id)
 									$content = "".stripslashes($row['content'])."";
 								}
 								//Print
-								$title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .'">'. $title .'</a>' : $title;
+								$title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .'">'. $title .'</a>' : $title;
 								head_block($icon, $title, $id_block, $row['bk_collapse'], $row['bk_no_title'], $row['bk_style']);
 								echo $content;
 								footer_block(trim($row['bk_style']));
 								break;
 					 // PHP Block								
-					case '2':   $title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=created">'. $title .'</a>' : $title;
+					case '2':   $title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=created">'. $title .'</a>' : $title;
 								head_block($icon, $title, $id_block, $row['bk_collapse'], $row['bk_no_title'], $row['bk_style']);
 								require_once($boarddir."/up-php-blocks/".$row['file']);
 								footer_block(trim($row['bk_style']));
 								break;
 					 // System Block			
-					default:    $title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=system">'. $title .'</a>' : $title;
+					default:    $title = $user_info['is_admin'] ? '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=system">'. $title .'</a>' : $title;
 								head_block($icon, $title, $id_block, $row['bk_collapse'], $row['bk_no_title'], $row['bk_style']);
 								require_once($boarddir."/up-blocks/".$row['file']);
 								footer_block(trim($row['bk_style']));

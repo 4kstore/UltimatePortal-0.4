@@ -21,7 +21,7 @@ $txt['ultport_no_rows'] = 'Although not added any rows.';
 $txt['ultport_no_rows_title'] = 'Information.';
 
 //Titles Modules
-$txt['ultport_admin_module_title'] = 'Ultimate Portal Modules';
+$txt['ultport_admin_module_title'] = 'Modules';
 $txt['ultport_admin_module_title2'] = 'Module';
 $txt['ultport_enablemodules_title'] = 'Enable/Disable Modules';
 $txt['ultport_admin_user_posts_title'] = 'Greats Posts';

@@ -9,49 +9,13 @@
 
 if (!defined('SMF'))
 	die('Hacking attempt...');
-	
-function UltimatePortalMainCP()
-{
-	global $sourcedir, $context;
-
-	//Inicialized the Ultimate Portal?
-	$context['ultimate_portal_initialized'] = false;	
-	
-	// Load UltimatePortal Settings
-	ultimateportalSettings();
-	// Load UltimatePortal template
-	loadtemplate('UltimatePortalCP');
-	// Load Language
-	if (loadlanguage('UltimatePortalCP') == false)
-		loadLanguage('UltimatePortalCP','english');
-
-	//Load Important Files
-	require_once($sourcedir . '/Security.php');
-	require_once($sourcedir . '/Load.php');
-	require_once($sourcedir . '/Subs-UltimatePortal.php');
-	
-	$areas = array(
-		'preferences' => array('', 'ShowPreferences'),
-		'ultimate_portal_blocks' => array('UltimatePortal-BlocksMain.php', 'ShowBlocksMain'),
-		'multiblock' => array('', 'ShowMultiblock'),
-	);
-
-	$_REQUEST['area'] = isset($_REQUEST['area']) && isset($areas[$_REQUEST['area']]) ? $_REQUEST['area'] : 'preferences';
-	$context['admin_area'] = $_REQUEST['area'];
-
-	if (!empty($areas[$_REQUEST['area']][0]))
-		require_once($sourcedir . '/' . $areas[$_REQUEST['area']][0]);
-
-	$areas[$_REQUEST['area']][1]();
-}
 
 function ShowPreferences()
 {
 	global $context, $txt, $settings;
 
-	if (!allowedTo('ultimate_portal_cp'))
-		isAllowedTo('ultimate_portal_cp');
-		
+	//loadLanguage('UltimatePortalCP');
+	//loadLanguage('UltimatePortalModules');	
 	loadTemplate('UltimatePortalCP');
 	
 	//Load subactions for the ultimate portal preferences
@@ -73,9 +37,9 @@ function ShowPreferences()
 
 	$context['sub_action'] = $_REQUEST['sa'];
 
-	$context[$context['admin_menu_name']]['tab_data'] = array(
+	$context[$context['adminportal_menu_name']]['tab_data'] = array(
 		'title' => $txt['ultport_admin_preferences_title'] . ' - ' . $txt['ultport_preferences_title'],
-		'description' =>  $txt['ultport_admin_preferences_description'],
+		'description' =>  $txt['ultport_admin_preferences_description'].'Hola',
 		'tabs' => array(
 			'main' => array(
 				'description' => $txt['ultport_admin_preferences_description'],
@@ -119,7 +83,7 @@ function ShowPreferencesGralSettings()
 	{
 		checkSession('post');
 		saveUltimatePortalSettings("config_preferences");
-		redirectexit('action=admin;area=preferences;sa=gral-settings;'. $context['session_var'] .'=' . $context['session_id']);
+		redirectexit('action=adminportal;area=preferences;sa=gral-settings;'. $context['session_var'] .'=' . $context['session_id']);
 	}	
 	$context['sub_template'] = 'preferences_gral_settings';
 	$context['page_title'] = $txt['ultport_admin_gral_settings_title'] . ' - ' . $txt['ultport_preferences_title'];	
@@ -152,7 +116,7 @@ function UltimatePortalEditLangs()
 		$content = trim($_POST['content']);
 		//Create Edit Lang File
 		CreateSpecificLang($file, $content);		
-		redirectexit('action=admin;area=preferences;sa=lang-maintenance;sesc=' . $context['session_id']);		
+		redirectexit('action=adminportal;area=preferences;sa=lang-maintenance;'.$context['session_var'].'=' . $context['session_id']);		
 	}	
 
 	if (!empty($_POST['duplicate']))
@@ -167,7 +131,7 @@ function UltimatePortalEditLangs()
 		$new_file_name = $_POST['new_file'] .'.php';
 		//Create Edit Lang File
 		CreateSpecificLang($new_file_name, $context['content']);
-		redirectexit('action=admin;area=preferences;sa=lang-maintenance;sesc=' . $context['session_id']);		
+		redirectexit('action=adminportal;area=preferences;sa=lang-maintenance;'.$context['session_var'].'=' . $context['session_id']);		
 	}	
 
 	if(!empty($_POST['editing']))
@@ -175,7 +139,7 @@ function UltimatePortalEditLangs()
 
 	//If not select the lang file, then redirect the selec lang form
 	if (empty($_POST['file']))
-		redirectexit('action=admin;area=preferences;sa=lang-maintenance');	
+		redirectexit('action=adminportal;area=preferences;sa=lang-maintenance');	
 		
 	$context['file'] = stripslashes($_POST['file']);	
 	$this_file = $context['file'];
@@ -192,12 +156,10 @@ function ShowPreferencesPermissionsSettings()
 {
 	global $context, $txt, $smcFunc, $sourcedir;
 
-	require_once($sourcedir . '/Subs-UltimatePortal.php');	
-	
 	$context['view-perms'] = 0;
 	$group_selected = '';
 
-	//Load Permissions - Source/Subs-UltimatePortal.php
+	//load permissions 
 	LoadUPModulesPermissions();
 
 	//View Perms?
@@ -207,23 +169,19 @@ function ShowPreferencesPermissionsSettings()
 		$context['view-perms'] = 1;
 		$group_selected = (int) $_POST['group'];
 		$context['group-selected'] = $group_selected;
-		
-		$permissions = array();
-		if(!empty($group_selected))
-		{
-			$result = $smcFunc['db_query']('',"
-				SELECT permission, value
-				FROM {db_prefix}up_groups_perms
-				WHERE ID_GROUP = {int:id_group}",
-				array(
-					'id_group' => $group_selected,
-				)
-			);
-			while ($row = $smcFunc['db_fetch_assoc']($result))			
-				$context[$row['permission']]['value'] = $row['value'];
-				
-			$smcFunc['db_free_result']($result);
-		}		
+		//permits granted
+		$result = $smcFunc['db_query']('',"
+			SELECT permission, value
+			FROM {db_prefix}up_groups_perms
+			WHERE ID_GROUP = {int:id_group}",
+			array(
+				'id_group' => $group_selected,
+			)
+		);
+		while ($row = $smcFunc['db_fetch_assoc']($result))		
+			$context['permissions'][$row['permission']]['value'] = !empty($row['value']) ? 1 : 0;			
+		$smcFunc['db_free_result']($result);
+
 	}	
 	if (!empty($_POST['save']))
 	{
@@ -236,21 +194,22 @@ function ShowPreferencesPermissionsSettings()
 				'id_group' => $id_group,
 			)
 		);		
-		foreach ($context['permissions'] as $permissions)
+		foreach ($context['permissions'] as $permissions => $value)
 		{
 			$smcFunc['db_query']('',"
 				INSERT IGNORE INTO {db_prefix}up_groups_perms(ID_GROUP, permission, value)
-				VALUES({int:id_group}, {string:perm_name}, ". (!empty($_POST[$permissions['name']]) ? '{int:active}' : '{int:disabled}' ) .")",
+				VALUES({int:id_group}, {string:perm_name}, ". (!empty($_POST[$permissions]) ? '{int:active}' : '{int:disabled}' ) .")",
 				array(
 					'id_group' => $id_group,
-					'perm_name' => $permissions['name'],
+					'perm_name' => $permissions,
 					'active' => 1,
 					'disabled' => 0,
 				)
 			);				
 		}
-		redirectexit('action=admin;area=preferences;sa=permissions-settings;sesc=' . $context['session_id']);
+		redirectexit('action=adminportal;area=preferences;sa=permissions-settings;'.$context['session_var'].'=' . $context['session_id']);
 	}
+	
 	//Load the MemberGroups
 	LoadMemberGroups($group_selected);
 	
@@ -278,7 +237,7 @@ function SaveMainLinks()
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 	
 	if (empty($_POST['save-menu']))
-		redirectexit('action=admin;area=preferences;sa=portal-menu');	
+		redirectexit('action=adminportal;area=preferences;sa=portal-menu');	
 
 	checkSession('post');
 	$myquery = $smcFunc['db_query']('',"
@@ -309,7 +268,7 @@ function SaveMainLinks()
 		);
 	}					
 	$smcFunc['db_free_result']($myquery);
-	redirectexit('action=admin;area=preferences;sa=portal-menu;sesc=' . $context['session_id']);	
+	redirectexit('action=adminportal;area=preferences;sa=portal-menu;'.$context['session_var'].'=' . $context['session_id']);	
 }
 
 //Add Main Links
@@ -319,7 +278,7 @@ function AddMainLinks()
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 	
 	if (!isset($_POST['add-menu']))
-		redirectexit('action=admin;area=preferences;sa=portal-menu');
+		redirectexit('action=adminportal;area=preferences;sa=portal-menu');
 	checkSession('post');
 	$icon = !empty($_POST['icon']) ? (string)$smcFunc['htmlspecialchars']($_POST['icon'], ENT_QUOTES) : '';
 	$title = !empty($_POST['title']) ? (string)$smcFunc['htmlspecialchars']($_POST['title'], ENT_QUOTES) : '';
@@ -339,7 +298,7 @@ function AddMainLinks()
 			'active' => $active,			
 		)
 	);
-	redirectexit('action=admin;area=preferences;sa=portal-menu;sesc=' . $context['session_id']);	
+	redirectexit('action=adminportal;area=preferences;sa=portal-menu;'.$context['session_var'].'=' . $context['session_id']);	
 }
 
 //Edit Main Links
@@ -350,7 +309,7 @@ function EditMainLinks()
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 	
 	if (empty($_REQUEST['id']))
-		redirectexit('action=admin;area=preferences;sa=portal-menu');	
+		redirectexit('action=adminportal;area=preferences;sa=portal-menu');	
 
 	if (!empty($_REQUEST['id']))
 	{
@@ -410,7 +369,7 @@ function EditMainLinks()
 				)
 			);
 		}		
-		redirectexit('action=admin;area=preferences;sa=portal-menu;sesc=' . $context['session_id']);
+		redirectexit('action=adminportal;area=preferences;sa=portal-menu;'.$context['session_var'].'=' . $context['session_id']);
 	}	
 }
 function DeleteMainLinks()
@@ -419,7 +378,7 @@ function DeleteMainLinks()
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 	
 	if (empty($_REQUEST['id']))
-		redirectexit('action=admin;area=preferences;sa=portal-menu');	
+		redirectexit('action=adminportal;area=preferences;sa=portal-menu');	
 		
 	$id = (int) $_REQUEST['id'];
 	
@@ -431,7 +390,7 @@ function DeleteMainLinks()
 			'id' => $id,
 		)		
 	);				
-	redirectexit('action=admin;area=preferences;sa=portal-menu;sesc=' . $context['session_id']);
+	redirectexit('action=adminportal;area=preferences;sa=portal-menu;'.$context['session_var'].'=' . $context['session_id']);
 }
 //Settings SEO
 function ShowSEO()
@@ -463,7 +422,7 @@ function ShowSEO()
 		checkSession('post');		
 		//save the ultimate portal settings section seo
 		saveUltimatePortalSettings("config_seo");
-		redirectexit('action=admin;area=preferences;sa=seo;sesc=' . $context['session_id']);
+		redirectexit('action=adminportal;area=preferences;sa=seo;'.$context['session_var'].'=' . $context['session_id']);
 	}
 	//Save Google Verification Code
 	if (!empty($_POST['save_seo_google_verification_code']))
@@ -486,7 +445,7 @@ function ShowSEO()
 			fwrite($handle, $content);	
 			fclose($handle);
 		}			
-		redirectexit('action=admin;area=preferences;sa=seo;sesc=' . $context['session_id']);
+		redirectexit('action=adminportal;area=preferences;sa=seo;'.$context['session_var'].'=' . $context['session_id']);
 	}
 	//Delete google Verification Code?
 	if(!empty($_REQUEST['file']))
@@ -519,7 +478,7 @@ function ShowSEO()
 			$configUltimatePortalVar['seo_google_verification_code'] = str_replace($verification.',','', $ultimateportalSettings['seo_google_verification_code']);
 			
 		updateUltimatePortalSettings($configUltimatePortalVar, 'config_seo');						
-		redirectexit('action=admin;area=preferences;sa=seo;sesc=' . $context['session_id']);
+		redirectexit('action=adminportal;area=preferences;sa=seo;'.$context['session_var'].'=' . $context['session_id']);
 	}
 	if(file_exists($boarddir . '/robots.txt'))	
 		$context['robots_txt'] = file_get_contents($boarddir . '/robots.txt');	
@@ -531,10 +490,8 @@ function ShowSEO()
 function ShowMultiblock()
 {
 	global $context, $txt;
-
-	if (!allowedTo('ultimate_portal_cp'))
-		isAllowedTo('ultimate_portal_cp');
-		
+	
+	//load template		
 	loadTemplate('UltimatePortalCP');
 	
 	//Load subactions for the ultimate portal preferences
@@ -547,7 +504,7 @@ function ShowMultiblock()
 	
 	$_REQUEST['sa'] = isset($_REQUEST['sa']) && isset($subActions[$_REQUEST['sa']]) ? $_REQUEST['sa'] : 'main';
 	$context['sub_action'] = $_REQUEST['sa'];
-	$context[$context['admin_menu_name']]['tab_data'] = array(
+	$context[$context['adminportal_menu_name']]['tab_data'] = array(
 		'title' => $txt['ultport_mb_title'],
 		'description' =>  $txt['ultport_mb_main_descrip'],
 		'tabs' => array(
@@ -565,8 +522,7 @@ function ShowMultiblock()
 function ShowMBMain()
 {
 	global $context, $txt, $sourcedir;
-	require_once($sourcedir . '/Subs-UltimatePortal.php');
-
+	
 	//Load Multiblocks
 	MultiBlocksLoads();	
 	$context['sub_template'] = 'mb_main';
@@ -576,7 +532,6 @@ function ShowMBMain()
 function ShowMBAdd()
 {
 	global $context, $txt, $sourcedir, $smcFunc;
-	require_once($sourcedir . '/Subs-UltimatePortal-Init-Blocks.php');	
 		
 	if(!empty($_POST['next']))
 	{
@@ -654,7 +609,7 @@ function ShowMBAdd()
 				}
 			}	
 		}
-		redirectexit('action=admin;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
+		redirectexit('action=adminportal;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
 	}
 	
 	//Loads only right, left, and center blocks
@@ -668,7 +623,7 @@ function ShowMBEdit()
 	require_once($sourcedir . '/Subs-UltimatePortal-Init-Blocks.php');	
 
 	if(empty($_GET['id']))
-		redirectexit('action=admin;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
+		redirectexit('action=adminportal;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
 	
 	//Catch id
 	$context['idmbk'] = mysql_real_escape_string($_GET['id']);
@@ -786,7 +741,7 @@ function ShowMBEdit()
 				);				
 			}
 		}		
-		redirectexit('action=admin;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
+		redirectexit('action=adminportal;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
 	}
 	$context['page_title'] = $txt['ultport_mb_title'] . ' - ' . $txt['ultport_mb_edit'] .' - '.$context['multiblocks'][$context['idmbk']]['title'];
 }
@@ -797,7 +752,7 @@ function ShowMBDelete()
 	require_once($sourcedir . '/Subs-UltimatePortal.php');	
 	
 	if (!isset($_REQUEST['id']))
-		redirectexit('action=admin;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
+		redirectexit('action=adminportal;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
 
 	$id = (int) $_REQUEST['id'];
 
@@ -834,5 +789,5 @@ function ShowMBDelete()
 			'id' => $id,
 		)
 	);				
-	redirectexit('action=admin;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
+	redirectexit('action=adminportal;area=multiblock;sa=main;'. $context['session_var'] .'=' . $context['session_id']);
 }

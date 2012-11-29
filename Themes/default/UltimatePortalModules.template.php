@@ -18,7 +18,7 @@ function template_news_main()
 				<img alt="',$txt['ultport_admin_news_main_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/gral-settings.png"/>&nbsp;', $txt['ultport_admin_news_main_title'], '
 			</h3>
 		</div>
-		<form name="newsform" method="post" action="', $scripturl, '?action=admin;area=up-news;sa=ns-main" accept-charset="',$context['character_set'],'">											
+		<form name="newsform" method="post" action="', $scripturl, '?action=adminportal;area=up-news;sa=ns-main" accept-charset="',$context['character_set'],'">											
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="content">
@@ -63,7 +63,7 @@ function template_announcement()
 					', $txt['ultport_admin_announcements_title'], '
 			</h3>
 		</div>
-		<form name="newsform" method="post" action="', $scripturl, '?action=admin;area=up-news;sa=announcements" accept-charset="', $context['character_set'], '">											
+		<form name="newsform" method="post" action="', $scripturl, '?action=adminportal;area=up-news;sa=announcements" accept-charset="', $context['character_set'], '">											
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="content">
@@ -133,13 +133,15 @@ function template_news_section()
 						</td>
 					</tr>';
 				}
-			}
-			$normal_buttons = array(		
-				'add_section' => array('text' => 'ultport_admin_add_sect_title', 'lang' => true, 'custom' => 'rel="new_win nofollow"', 'url' => $scripturl . '?action=admin;area=up-news;sa=add-section;sesc=' . $context['session_id'].''),
-			);	
-			echo''.template_button_strip($normal_buttons, 'right').'									
+			}			
+			echo'
 			</tbody>			
-		</table>		
+		</table>';
+		
+		$normal_buttons = array(		
+			'add_section' => array('text' => 'ultport_admin_add_sect_title', 'lang' => true, 'custom' => 'rel="new_win nofollow"', 'url' => $scripturl . '?action=adminportal;area=up-news;sa=add-section;'. $context['session_var'] .'=' . $context['session_id'].''),
+		);		
+	echo ''. template_button_strip($normal_buttons, 'right') .'	
 	</div>';
 	
 }
@@ -155,7 +157,7 @@ function template_add_news_section()
 				<img alt="',$txt['ultport_admin_add_sect_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/add.png"/>&nbsp;', $txt['ultport_admin_add_sect_title'], '
 			</h3>
 		</div>
-		<form method="post" action="', $scripturl, '?action=admin;area=up-news;sa=add-section" accept-charset="', $context['character_set'], '">											
+		<form method="post" action="', $scripturl, '?action=adminportal;area=up-news;sa=add-section" accept-charset="', $context['character_set'], '">											
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="content">
@@ -204,7 +206,7 @@ function template_edit_news_section()
 				<img alt="',$txt['ultport_admin_edit_sect_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png"/>&nbsp;', $txt['ultport_admin_edit_sect_title'], '
 			</h3>
 		</div>
-		<form method="post" action="', $scripturl, '?action=admin;area=up-news;sa=edit-section" accept-charset="', $context['character_set'], '">											
+		<form method="post" action="', $scripturl, '?action=adminportal;area=up-news;sa=edit-section" accept-charset="', $context['character_set'], '">											
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="content">
@@ -259,7 +261,7 @@ function template_admin_news()
 		
 	echo'
 	<div id="admincenter">
-		<div class="floatleft">
+		<div>
 			<div class="pagesection">'. $txt['pages'] .': '. $context['page_index'] .' </div>
 		</div>
 		<table class="table_grid" cellspacing="0" width="100%">
@@ -293,15 +295,22 @@ function template_admin_news()
 					</tr>';
 				}
 			}
-			$normal_buttons = array(		
-				'add_news' => array('text' => 'ultport_admin_add_news_btn', 'lang' => true, 'custom' => 'rel="new_win nofollow"', 'url' => $scripturl . '?action=admin;area=up-news;sa=add-news;sesc=' . $context['session_id'].''),
-			);	
-			echo''.template_button_strip($normal_buttons, 'right').'									
+			
+			echo'
 			</tbody>			
 		</table>
-		<div class="floatleft">
+		<div>
 			<div class="pagesection">'. $txt['pages'] .': '. $context['page_index'] .' </div>
-		</div>	
+		</div>';
+		
+		//button strip
+		$normal_buttons = array(		
+				'add_news' => array('text' => 'ultport_admin_add_news_btn', 'lang' => true, 'custom' => 'rel="new_win nofollow"', 'url' => $scripturl . '?action=adminportal;area=up-news;sa=add-news;'. $context['session_var'] .'=' . $context['session_id'].''),
+		);		
+		echo template_button_strip($normal_buttons, 'right');
+		//end button strip
+			
+	echo '
 	</div>';
 }
 
@@ -315,7 +324,7 @@ function template_add_news()
 				', $txt['ultport_admin_add_news_title2'], '
 			</h3>
 		</div>
-		<form method="post" action="', $scripturl, '?action=admin;area=up-news;sa=add-news" accept-charset="', $context['character_set'], '">										
+		<form method="post" action="', $scripturl, '?action=adminportal;area=up-news;sa=add-news" accept-charset="', $context['character_set'], '">										
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="content">
@@ -335,7 +344,7 @@ function template_add_news()
 							</select>
 						</dd>										
 					</dl>
-					<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%"></textarea>
+					<textarea id="elm1" name="elm1"></textarea>
 					<hr class="hrcolor clear" />
 					<div class="righttext">
 						<input type="hidden" name="save" value="ok" />						
@@ -360,7 +369,7 @@ function template_edit_news()
 				', $txt['ultport_admin_edit_news_title'], '
 			</h3>
 		</div>
-		<form method="post" action="', $scripturl, '?action=admin;area=up-news;sa=add-news" accept-charset="', $context['character_set'], '">										
+		<form method="post" action="', $scripturl, '?action=adminportal;area=up-news;sa=add-news" accept-charset="', $context['character_set'], '">										
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="content">
@@ -407,7 +416,7 @@ function template_board_news_main()
 				<img alt="',$txt['ultport_admin_bn_main_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/gral-settings.png"/>&nbsp;', $txt['ultport_admin_bn_main_title'], '
 			</h3>
 		</div>
-		<form method="post" action="', $scripturl, '?action=admin;area=board-news;sa=bn-main" accept-charset="', $context['character_set'], '">											
+		<form method="post" action="', $scripturl, '?action=adminportal;area=board-news;sa=bn-main" accept-charset="', $context['character_set'], '">											
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="content">
@@ -470,7 +479,7 @@ function template_ipage_main()
 				<img alt="',$txt['ipage_settings_title'],'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/gral-settings.png"/>&nbsp;', $txt['ipage_settings_title'],'
 			</h3>
 		</div>
-		<form method="post" action="', $scripturl, '?action=admin;area=internal-page;sa=main" accept-charset="', $context['character_set'], '">												
+		<form method="post" action="', $scripturl, '?action=adminportal;area=internal-page;sa=main" accept-charset="', $context['character_set'], '">												
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="content">

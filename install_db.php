@@ -1,9 +1,8 @@
 <?php
 /*---------------------------------------------------------------------------------
 *	Ultimate Portal
-*	Version 0.3
+*	Version 0.4
 *	Project manager: vicram10
-*	Copyright 2011
 *	Powered by SMFSimple.com
 **********************************************************************************/
 	global $mbname, $boardurl, $db_prefix, $context;
@@ -692,7 +691,7 @@
 	}
 
 	//Install default rows
-	$smcFunc['db_insert']('replace',
+	$smcFunc['db_insert']('ignore',
 		'{db_prefix}ultimate_portal_settings',
 		array('variable' => 'text', 'value' => 'text', 'section' => 'text'),
 		array(

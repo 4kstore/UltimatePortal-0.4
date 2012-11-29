@@ -29,28 +29,28 @@ function template_preferences_main()
 		<div class="content">
 			<ul id="quick_tasks" class="flow_hidden">
 				<li>
-					<a href="', $scripturl ,'?action=admin;area=preferences;sa=gral-settings;' . $context['session_var'].'=' . $context['session_id'].'"><img class="home_image png_fix" alt="" src="', $settings['default_theme_url'] ,'/images/ultimate-portal/admin-main/preferences.png" /></a>
-					<h5><a href="', $scripturl ,'?action=admin;area=preferences;sa=gral-settings;' . $context['session_var'].'=' . $context['session_id'].'">', $txt['ultport_preferences_title'] ,'</a></h5>
+					<a href="', $scripturl ,'?action=adminportal;area=preferences;sa=gral-settings;' . $context['session_var'].'=' . $context['session_id'].'"><img class="home_image png_fix" alt="" src="', $settings['default_theme_url'] ,'/images/ultimate-portal/admin-main/preferences.png" /></a>
+					<h5><a href="', $scripturl ,'?action=adminportal;area=preferences;sa=gral-settings;' . $context['session_var'].'=' . $context['session_id'].'">', $txt['ultport_preferences_title'] ,'</a></h5>
 					<span class="task">', $txt['ultport_admin_gral_settings_description'] ,'</span>
 				</li>
 				<li>
-					<a href="', $scripturl ,'?action=admin;area=ultimate_portal_blocks;' . $context['session_var'].'=' . $context['session_id'].'"><img class="home_image png_fix" alt="" src="', $settings['default_theme_url'] ,'/images/ultimate-portal/admin-main/blocks.png" /></a>
-					<h5><a href="', $scripturl ,'?action=admin;area=ultimate_portal_blocks;' . $context['session_var'].'=' . $context['session_id'].'">', $txt['main_blocks_title'] ,'</a></h5>
+					<a href="', $scripturl ,'?action=adminportal;area=ultimate_portal_blocks;' . $context['session_var'].'=' . $context['session_id'].'"><img class="home_image png_fix" alt="" src="', $settings['default_theme_url'] ,'/images/ultimate-portal/admin-main/blocks.png" /></a>
+					<h5><a href="', $scripturl ,'?action=adminportal;area=ultimate_portal_blocks;' . $context['session_var'].'=' . $context['session_id'].'">', $txt['main_blocks_title'] ,'</a></h5>
 					<span class="task">', $txt['main_blocks_description'] ,'</span>
 				</li>';
 			if(!empty($ultimateportalSettings['up_news_enable']))
 			{
 				echo '
 				<li>
-					<a href="', $scripturl ,'?action=admin;area=up-news;' . $context['session_var'].'=' . $context['session_id'].'"><img class="home_image png_fix" alt="" src="', $settings['default_theme_url'] ,'/images/ultimate-portal/admin-main/news.png" /></a>
-					<h5><a href="', $scripturl ,'?action=admin;area=up-news;' . $context['session_var'].'=' . $context['session_id'].'">', $txt['main_news_title'] ,'</a></h5>
+					<a href="', $scripturl ,'?action=adminportal;area=up-news;' . $context['session_var'].'=' . $context['session_id'].'"><img class="home_image png_fix" alt="" src="', $settings['default_theme_url'] ,'/images/ultimate-portal/admin-main/news.png" /></a>
+					<h5><a href="', $scripturl ,'?action=adminportal;area=up-news;' . $context['session_var'].'=' . $context['session_id'].'">', $txt['main_news_title'] ,'</a></h5>
 					<span class="task">', $txt['main_news_description'] ,'</span>
 				</li>';
 			}
 				echo '
 				<li>
-					<a href="', $scripturl ,'?action=admin;area=board-news;' . $context['session_var'].'=' . $context['session_id'].'"><img class="home_image png_fix" alt="" src="', $settings['default_theme_url'] ,'/images/ultimate-portal/admin-main/board-news.png" /></a>
-					<h5><a href="', $scripturl ,'?action=admin;area=board-news;' . $context['session_var'].'=' . $context['session_id'].'">', $txt['main_bnews_title'] ,'</a></h5>
+					<a href="', $scripturl ,'?action=adminportal;area=board-news;' . $context['session_var'].'=' . $context['session_id'].'"><img class="home_image png_fix" alt="" src="', $settings['default_theme_url'] ,'/images/ultimate-portal/admin-main/board-news.png" /></a>
+					<h5><a href="', $scripturl ,'?action=adminportal;area=board-news;' . $context['session_var'].'=' . $context['session_id'].'">', $txt['main_bnews_title'] ,'</a></h5>
 					<span class="task">', $txt['main_bnews_description'] ,'</span>
 				</li>';
 			
@@ -58,8 +58,8 @@ function template_preferences_main()
 			{				
 				echo '
 				<li>
-					<a href="', $scripturl ,'?action=admin;area=internal-page;' . $context['session_var'].'=' . $context['session_id'].'"><img class="home_image png_fix" alt="" src="', $settings['default_theme_url'] ,'/images/ultimate-portal/admin-main/internal-page.png" /></a>
-					<h5><a href="', $scripturl ,'?action=admin;area=internal-page;' . $context['session_var'].'=' . $context['session_id'].'">', $txt['main_ipage_title'] ,'</a></h5>
+					<a href="', $scripturl ,'?action=adminportal;area=internal-page;' . $context['session_var'].'=' . $context['session_id'].'"><img class="home_image png_fix" alt="" src="', $settings['default_theme_url'] ,'/images/ultimate-portal/admin-main/internal-page.png" /></a>
+					<h5><a href="', $scripturl ,'?action=adminportal;area=internal-page;' . $context['session_var'].'=' . $context['session_id'].'">', $txt['main_ipage_title'] ,'</a></h5>
 					<span class="task">', $txt['main_ipage_description'] ,'</span>
 				</li>';
 			}
@@ -92,7 +92,7 @@ function template_preferences_gral_settings()
 {
 	global $context, $scripturl, $txt, $settings, $ultimateportalSettings;
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=gral-settings" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=gral-settings" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -258,7 +258,7 @@ function template_preferences_lang_maintenance()
 {
 	global $context, $scripturl, $txt, $settings;
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=lang-edit" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=lang-edit" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -289,7 +289,7 @@ function template_preferences_lang_maintenance()
 	</form>';
 	//Duplicate Files?
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=lang-edit" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=lang-edit" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -330,7 +330,7 @@ function template_preferences_lang_edit()
 {
 	global $context, $scripturl, $txt, $settings;
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=lang-edit" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=lang-edit" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -354,7 +354,7 @@ function template_preferences_lang_edit()
 					<input type="hidden" name="file" value="', $context['file'] ,'" />				
 					<input type="submit" name="save" value="',$txt['ultport_button_edit'],'" />
 					<input type="hidden" name="sc" value="', $context['session_id'], '" />
-					<a href="', $scripturl, '?action=admin;area=preferences;sa=lang-maintenance"><input type="button" name="',$txt['ultport_button_go_back'],'" value="',$txt['ultport_button_go_back'],'" /></a>
+					<a href="', $scripturl, '?action=adminportal;area=preferences;sa=lang-maintenance"><input type="button" name="',$txt['ultport_button_go_back'],'" value="',$txt['ultport_button_go_back'],'" /></a>
 				</div>	
 			</div>	
 			<span class="botslice"><span></span></span>	
@@ -368,7 +368,7 @@ function template_preferences_permissions_settings()
 {
 	global $context, $scripturl, $txt, $settings;
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=permissions-settings" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=permissions-settings" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -406,7 +406,7 @@ function template_preferences_permissions_settings()
 	if (!empty($context['view-perms']))	
 	{
 		echo'
-		<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=permissions-settings" accept-charset="', $context['character_set'], '">
+		<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=permissions-settings" accept-charset="', $context['character_set'], '">
 		<div id="admincenter">
 			<div class="cat_bar">
 				<h3 class="catbg">
@@ -417,14 +417,14 @@ function template_preferences_permissions_settings()
 				<span class="topslice"><span></span></span>
 				<div class="content">
 					<dl class="settings">';
-					foreach ($context['permissions'] as $permissions)
+					foreach ($context['permissions'] as $permissions => $value)
 					{	
 						echo '
 						<dt>
-							<span><label for="text-name">'. $permissions['text-name'] .'</label></span>
+							<span><label for="text-name">'. $value['text-name'] .'</label></span>
 						</dt>
 						<dd>			
-							<input type="checkbox" value="on" name="', $permissions['name'] ,'" ', (!empty($context[$permissions['name']]['value']) ? 'checked="checked"' : '') ,'/>
+							<input type="checkbox" value="on" name="', $permissions ,'" ', (!empty($value['value']) ? 'checked="checked"' : '') ,'/>
 						</dd>';
 					}
 					echo '						
@@ -465,7 +465,7 @@ function template_preferences_main_links()
 		</h3>
 	</div>
 	<div id="admincenter">	
-		<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=save-portal-menu" accept-charset="', $context['character_set'], '">	
+		<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=save-portal-menu" accept-charset="', $context['character_set'], '">	
 		<table class="table_grid" cellspacing="0" width="100%">
 			<thead>
 				<tr class="catbg">
@@ -497,7 +497,7 @@ function template_preferences_main_links()
 							<input type="text" name="', $main_link['position_form'] ,'" size="4" value="', !empty($main_link['position']) ? $main_link['position'] : '' , '" />
 						</td>
 						<td class="',$main_link['activestyle'],'" style="text-align:center;">									
-							<a href="', $scripturl, '?action=admin;area=preferences;sa=edit-portal-menu;id=', $main_link['id'] ,';' . $context['session_var'].'=', $context['session_id'], '"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a> <a onclick="return makesurelink()" href="', $scripturl, '?action=admin;area=preferences;sa=delete-portal-menu;id=', $main_link['id'] ,';' . $context['session_var'].'=', $context['session_id'], '"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" /></a>
+							<a href="', $scripturl, '?action=adminportal;area=preferences;sa=edit-portal-menu;id=', $main_link['id'] ,';' . $context['session_var'].'=', $context['session_id'], '"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a> <a onclick="return makesurelink()" href="', $scripturl, '?action=adminportal;area=preferences;sa=delete-portal-menu;id=', $main_link['id'] ,';' . $context['session_var'].'=', $context['session_id'], '"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" /></a>
 						</td>
 						<td class="',$main_link['activestyle'],'" style="text-align:center;">									
 							<input type="checkbox" name="',  $main_link['active_form'] ,'" value="1" ', $main_link['active'] ,' />
@@ -517,7 +517,7 @@ function template_preferences_main_links()
 	</div>';
 	//Add Main Link
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=add-portal-menu" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=add-portal-menu" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -578,7 +578,7 @@ function template_preferences_edit_main_links()
 	global $context, $txt, $settings, $scripturl, $ultimateportalSettings;
 	
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=edit-portal-menu" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=edit-portal-menu" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -648,7 +648,7 @@ function template_preferences_seo()
 	global $context, $txt, $settings, $scripturl, $ultimateportalSettings;
 	
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=seo" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=seo" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -678,7 +678,7 @@ function template_preferences_seo()
 	</div>
 	</form>';	
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=seo" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=seo" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -713,7 +713,7 @@ function template_preferences_seo()
 	</div>
 	</form>';
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=preferences;sa=seo" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=preferences;sa=seo" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -741,7 +741,7 @@ function template_preferences_seo()
 								if(!empty($verifications_codes[$i]))
 								{
 									echo '	
-									<li style="background:transparent url(', $settings['default_theme_url'] ,'/images/ultimate-portal/download/menu.png) no-repeat scroll 2px 50%;padding-left:16px;">', $verifications_codes[$i] ,'.html&nbsp;<a href="', $scripturl ,'?action=admin;area=preferences;sa=seo;file=', $verifications_codes[$i] ,';' . $context['session_var'].'=', $context['session_id'] ,'"><img src="', $settings['default_theme_url'] ,'/images/pm_recipient_delete.gif" alt="', $txt['ultport_button_delete'] ,'" title="', $txt['ultport_button_delete'] ,'" /></a></li>';	
+									<li style="background:transparent url(', $settings['default_theme_url'] ,'/images/ultimate-portal/download/menu.png) no-repeat scroll 2px 50%;padding-left:16px;">', $verifications_codes[$i] ,'.html&nbsp;<a href="', $scripturl ,'?action=adminportal;area=preferences;sa=seo;file=', $verifications_codes[$i] ,';' . $context['session_var'].'=', $context['session_id'] ,'"><img src="', $settings['default_theme_url'] ,'/images/pm_recipient_delete.gif" alt="', $txt['ultport_button_delete'] ,'" title="', $txt['ultport_button_delete'] ,'" /></a></li>';	
 								}
 							}
 							echo '
@@ -834,7 +834,7 @@ function template_mb_add()
 
 	echo '
 	<div id="admincenter">
-		<form name="mbadd" method="post" action="', $scripturl, '?action=admin;area=multiblock;sa=add" accept-charset="', $context['character_set'], '">
+		<form name="mbadd" method="post" action="', $scripturl, '?action=adminportal;area=multiblock;sa=add" accept-charset="', $context['character_set'], '">
 			<div class="cat_bar">
 				<h3 class="catbg">
 					', $txt['ultport_mb_title'] ,' - ', $txt['ultport_mb_add'] ,' - ', $txt['ultport_mb_step'] ,' 1
@@ -946,7 +946,7 @@ function template_mb_add_1()
 
 	echo '
 	<div id="admincenter">
-		<form name="mbadd" method="post" action="', $scripturl, '?action=admin;area=multiblock;sa=add" accept-charset="', $context['character_set'], '">
+		<form name="mbadd" method="post" action="', $scripturl, '?action=adminportal;area=multiblock;sa=add" accept-charset="', $context['character_set'], '">
 			<div class="cat_bar">
 				<h3 class="catbg">
 					', $txt['ultport_mb_title'] ,' - ', $txt['ultport_mb_add'] ,' - ', $txt['ultport_mb_step'] ,' 2				
@@ -1046,7 +1046,7 @@ function template_mb_edit()
 
 	echo '
 	<div id="admincenter">
-		<form name="mbedit" method="post" action="', $scripturl, '?action=admin;area=multiblock;sa=edit;id=', $context['idmbk'] ,'" accept-charset="', $context['character_set'], '">
+		<form name="mbedit" method="post" action="', $scripturl, '?action=adminportal;area=multiblock;sa=edit;id=', $context['idmbk'] ,'" accept-charset="', $context['character_set'], '">
 			<div class="cat_bar">
 				<h3 class="catbg">
 					', $txt['ultport_mb_title'] ,' - ', $txt['ultport_mb_edit'] ,' - ', $context['multiblocks'][$context['idmbk']]['title'] ,' - ', $txt['ultport_mb_step'] ,' 1
@@ -1159,7 +1159,7 @@ function template_mb_edit_1()
 
 	echo '
 	<div id="admincenter">
-		<form name="mbadd" method="post" action="', $scripturl, '?action=admin;area=multiblock;sa=edit;id=', $context['idmbk'] ,'" accept-charset="', $context['character_set'], '">
+		<form name="mbadd" method="post" action="', $scripturl, '?action=adminportal;area=multiblock;sa=edit;id=', $context['idmbk'] ,'" accept-charset="', $context['character_set'], '">
 			<div class="cat_bar">
 				<h3 class="catbg">
 					', $txt['ultport_mb_title'] ,' - ', $txt['ultport_mb_add'] ,' - ', $txt['ultport_mb_step'] ,' 2				

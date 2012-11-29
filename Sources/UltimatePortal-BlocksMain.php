@@ -14,14 +14,7 @@ function ShowBlocksMain()
 {
 	global $context, $txt, $sourcedir;
 
-	//Load the Source/Subs-UltimatePortal-Init-Blocks.php
-	require_once($sourcedir . '/Subs-UltimatePortal-Init-Blocks.php');
-	//Load the Source/Subs-UltimatePortal.php
-	require_once($sourcedir . '/Subs-UltimatePortal.php');
-
-	if (!allowedTo('ultimate_portal_cp'))
-		isAllowedTo('ultimate_portal_blocks');
-
+	//load template
 	loadTemplate('UltimatePortal-BlocksMain');
 
 	$subActions = array(
@@ -44,7 +37,7 @@ function ShowBlocksMain()
 
 	$context['sub_action'] = $_REQUEST['sa'];
 
-	$context[$context['admin_menu_name']]['tab_data'] = array(
+	$context[$context['adminportal_menu_name']]['tab_data'] = array(
 		'title' => $txt['ultport_blocks_title'],
 		'description' => $txt['ultport_blocks_description'],
 		'tabs' => array(
@@ -69,8 +62,6 @@ function ShowBlockPositions()
 {
 	global $db_prefix, $context, $scripturl, $txt;
 
-	checkSession('get');
-
 	//Calling the Block Directory and added a new blocks, on the block table, if that exist.
 	UltimatePortalBlockDir();
 	//Load the Block table (smf_ultimate_portal_blocks)
@@ -89,7 +80,7 @@ function SavePositions()
 {
 	global $context, $smcFunc;
 	if (!isset($_POST['save']))
-		redirectexit('action=admin;area=ultimate_portal_blocks;sa=positions');
+		redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=positions');
 
 	checkSession('post');
 	//Reduce Site Overload is Checked? okay... if save blocks, edit blocks, delete existing cache files....
@@ -132,12 +123,14 @@ function SavePositions()
 	}
 	$smcFunc['db_free_result']($myquery);
 	//redirect the Blocks Positions
-	redirectexit('action=admin;area=ultimate_portal_blocks;sa=positions;'. $context['session_var'] .'=' . $context['session_id']);
+	redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=positions;'. $context['session_var'] .'=' . $context['session_id']);
 }
 
 function ShowBlockTitle()
 {
 	global $context, $txt;
+
+	//checksession
 	checkSession('get');
 	//Load the blocks Titles
 	LoadBlocksTitle();
@@ -153,7 +146,7 @@ function SaveBlockTitle()
 	global $context, $smcFunc;
 
 	if (!isset($_POST['save']))
-		redirectexit('action=admin;area=ultimate_portal_blocks;sa=blocks-titles');
+		redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=blocks-titles');
 
 	checkSession('post');
 	$myquery = $smcFunc['db_query']('',"
@@ -178,7 +171,7 @@ function SaveBlockTitle()
 		);
 	}
 	//redirect the Blocks Titles
-	redirectexit('action=admin;area=ultimate_portal_blocks;sa=blocks-titles;sesc=' . $context['session_id']);
+	redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=blocks-titles;'. $context['session_var'] .'=' . $context['session_id']);
 }
 
 function ShowCreateBlocks()
@@ -224,12 +217,12 @@ function ShowAddBlockHTML()
 					'bk_style' => $bk_style,
 				)
 		);
-		redirectexit('action=admin;area=ultimate_portal_blocks;sa=positions;sesc=' . $context['session_id']);
+		redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=positions;'. $context['session_var'] .'=' . $context['session_id']);
 	}
 	//Load image folder
 	load_image_folder("/icons");
 	//load the context_html_headers from Sources/Sub-Ultimate-Portal.php
-	context_html_headers();
+	context_html_headers("elm1");
 
 	$context['sub_template'] = 'add_block_html';
 	$context['page_title'] = $txt['ultport_add_bk_html_titles'] . ' - ' . $txt['ultport_blocks_title'];
@@ -297,7 +290,7 @@ function ShowAddBlockPHP()
 				'bk_style' => $bk_style,
 			)
 		);
-		redirectexit('action=admin;area=ultimate_portal_blocks;sa=positions;sesc=' . $context['session_id']);
+		redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=positions;'. $context['session_var'] .'=' . $context['session_id']);
 	}
 	//Preview?
 	if (isset($_POST['preview']))
@@ -366,15 +359,15 @@ function SwitchBlockType()
 	{
 		case '1':
 			//redirect the Blocks HTML edit
-			redirectexit('action=admin;area=ultimate_portal_blocks;sa=blocks-html-edit;id='. $id.';sesc=' . $context['session_id']);
+			redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=blocks-html-edit;id='. $id.';'. $context['session_var'] .'=' . $context['session_id']);
 			break;
 		case '2':
 			//redirect the Blocks PHP edit (created block)
-			redirectexit('action=admin;area=ultimate_portal_blocks;sa=blocks-php-edit;id='. $id .';type-php='.$type_php.';sesc=' . $context['session_id']);
+			redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=blocks-php-edit;id='. $id .';type-php='.$type_php.';'. $context['session_var'] .'=' . $context['session_id']);
 			break;
 		default:
 			//redirect the Blocks PHP edit (System block)
-			redirectexit('action=admin;area=ultimate_portal_blocks;sa=blocks-php-edit;id='. $id .';type-php='.$type_php.';sesc=' . $context['session_id']);
+			redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=blocks-php-edit;id='. $id .';type-php='.$type_php.';'. $context['session_var'] .'=' . $context['session_id']);
 			break;
 	}
 	exit;
@@ -426,7 +419,7 @@ function EditBlockHtml()
 			);
 		}
 		//redirect the Blocks Admin
-		redirectexit('action=admin;area=ultimate_portal_blocks;sa=admin-block;sesc=' . $context['session_id']);
+		redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=admin-block;'. $context['session_var'] .'=' . $context['session_id']);
 	}
 
 	$id = !empty($_REQUEST['id']) ? (int)$smcFunc['db_escape_string']($_REQUEST['id']) : '';
@@ -457,7 +450,7 @@ function EditBlockHtml()
 	//Load image folder
 	load_image_folder("/icons");
 	//load the context_html_headers from Sources/Sub-Ultimate-Portal.php
-	context_html_headers();
+	context_html_headers("elm1");
 
 	// Call the sub template.
 	$context['sub_template'] = 'edit_block_html';
@@ -551,7 +544,7 @@ function EditBlockPhp()
 			);
 		}
 		//redirect the Blocks Admin
-		redirectexit('action=admin;area=ultimate_portal_blocks;sa=admin-block;sesc=' . $context['session_id']);
+		redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=admin-block;'. $context['session_var'] .'=' . $context['session_id']);
 	}
 	//Load image folder
 	load_image_folder("/icons");
@@ -706,5 +699,5 @@ function DeleteBlock()
 			)
 		);
 	}
-	redirectexit('action=admin;area=ultimate_portal_blocks;sa=admin-block;sesc=' . $context['session_id']);
+	redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=admin-block;'. $context['session_var'] .'=' . $context['session_id']);
 }

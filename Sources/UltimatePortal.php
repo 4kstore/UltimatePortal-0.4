@@ -21,8 +21,7 @@ function UltimatePortalMain()
 	ultimateportalSettings();
 
 	// Load Language
-	if (loadlanguage('UltimatePortal') == false)
-		loadLanguage('UltimatePortal','english');
+	loadLanguage('UltimatePortal');
 
 	if (!empty($context['linktree']) && !empty($ultimateportalSettings['ultimate_portal_enable']))
     {  
@@ -35,8 +34,8 @@ function UltimatePortalMain()
 	
 	//Load Headers UP
 	$context['html_headers'] .= '
-	<meta name="generator" content="Ultimate Portal 0.3 By Smfsimple.com" />
-	<script src="http://code.jquery.com/jquery-1.7.min.js"></script>
+	<meta name="generator" content="Ultimate Portal - www.smfsimple.com" />
+	<script src="http://code.jquery.com/jquery.min.js"></script>
 	<script src="'. $settings['default_theme_url'] .'/scripts/sharrre-1.3.4.js"></script>
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 		function collapse(id,span)

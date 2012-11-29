@@ -18,7 +18,7 @@ function template_positions()
 		</h3>
 	</div>
 	<div id="admincenter">	
-	<form method="post" action="', $scripturl, '?action=admin;area=ultimate_portal_blocks;sa=save-positions" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=ultimate_portal_blocks;sa=save-positions" accept-charset="', $context['character_set'], '">
 		<table class="table_grid" cellspacing="0" width="100%">
 			<thead>
 				<tr class="catbg">
@@ -333,7 +333,7 @@ function template_blocks_titles()
 		</h3>
 	</div>
 	<div id="admincenter">	
-		<form method="post" action="', $scripturl, '?action=admin;area=ultimate_portal_blocks;sa=save-blocks-titles" accept-charset="', $context['character_set'], '">	
+		<form method="post" action="', $scripturl, '?action=adminportal;area=ultimate_portal_blocks;sa=save-blocks-titles" accept-charset="', $context['character_set'], '">	
 			<table class="table_grid" cellspacing="0" width="100%">
 				<thead>
 					<tr class="catbg">
@@ -391,12 +391,12 @@ function template_create_blocks()
 				<table width="30%" align="center" class="tborder" cellspacing="1" cellpadding="5" border="0">
 					<tr>
 						<td width="50%" align="center">
-							<a href="', $scripturl, '?action=admin;area=ultimate_portal_blocks;sa=add-block-html;sesc=' . $context['session_id'].'"><img alt="" style="cursor:pointer" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/page-html.png"/></a>
+							<a href="', $scripturl, '?action=adminportal;area=ultimate_portal_blocks;sa=add-block-html;sesc=' . $context['session_id'].'"><img alt="" style="cursor:pointer" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/page-html.png"/></a>
 							<br />									
 							<strong>', $txt['ultport_creat_bk_html_title'], '</strong>
 						</td>			
 						<td width="50%" align="center">
-							<a href="', $scripturl, '?action=admin;area=ultimate_portal_blocks;sa=add-block-php;sesc=' . $context['session_id'].'"><img alt="" style="cursor:pointer" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/page-php.png"/></a>
+							<a href="', $scripturl, '?action=adminportal;area=ultimate_portal_blocks;sa=add-block-php;sesc=' . $context['session_id'].'"><img alt="" style="cursor:pointer" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/page-php.png"/></a>
 							<br />									
 							<strong>', $txt['ultport_creat_bk_php_title'], '</strong>
 						</td>			
@@ -412,7 +412,7 @@ function template_add_block_html()
 {
 	global $context, $txt, $settings, $scripturl;
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=ultimate_portal_blocks;sa=add-block-html" accept-charset="', $context['character_set'], '">	
+	<form method="post" action="', $scripturl, '?action=adminportal;area=ultimate_portal_blocks;sa=add-block-html" accept-charset="', $context['character_set'], '">	
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -459,7 +459,7 @@ function template_add_block_html()
 				}
 				echo'
 				<div style="margin: 10px;" align="center">
-					<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%"></textarea>
+					<textarea id="elm1" name="elm1"></textarea>
 				</div>
 				<dl class="settings">
 					<dt>
@@ -515,7 +515,7 @@ function template_add_block_php()
 	}
 	//End Preview
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=ultimate_portal_blocks;sa=add-block-php" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=ultimate_portal_blocks;sa=add-block-php" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -710,7 +710,7 @@ function template_edit_block_html()
 {
 	global $context, $txt, $settings, $scripturl;
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=ultimate_portal_blocks;sa=blocks-html-edit" accept-charset="', $context['character_set'], '">
+	<form method="post" action="', $scripturl, '?action=adminportal;area=ultimate_portal_blocks;sa=blocks-html-edit" accept-charset="', $context['character_set'], '">
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -757,7 +757,7 @@ function template_edit_block_html()
 				}
 				echo'
 				<div style="margin: 10px;" align="center">
-					<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 100%">', $context['content'] ,'</textarea>
+					<textarea id="elm1" name="elm1">', $context['content'] ,'</textarea>
 				</div>
 				<dl class="settings">
 					<dt>
@@ -816,7 +816,7 @@ function template_edit_block_php()
 	}
 	//End Preview
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=ultimate_portal_blocks;sa=blocks-php-edit;id='. $context['id'] .';type-php='. $context['type_php'] .'" accept-charset="', $context['character_set'], '">	
+	<form method="post" action="', $scripturl, '?action=adminportal;area=ultimate_portal_blocks;sa=blocks-php-edit;id='. $context['id'] .';type-php='. $context['type_php'] .'" accept-charset="', $context['character_set'], '">	
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">
@@ -903,7 +903,7 @@ function template_perms_block()
 {
 	global $context, $txt, $settings, $scripturl;
 	echo'
-	<form method="post" action="', $scripturl, '?action=admin;area=ultimate_portal_blocks;sa=blocks-perms;id='. $context['id'] .'" accept-charset="', $context['character_set'], '">	
+	<form method="post" action="', $scripturl, '?action=adminportal;area=ultimate_portal_blocks;sa=blocks-perms;id='. $context['id'] .'" accept-charset="', $context['character_set'], '">	
 	<div id="admincenter">
 		<div class="cat_bar">
 			<h3 class="catbg">

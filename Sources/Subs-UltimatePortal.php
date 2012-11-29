@@ -19,7 +19,6 @@ Functions
 		//
 
 	-	void context_html_headers()!!
-		//Load the TinyMCE link headers
 
 */
 
@@ -315,12 +314,9 @@ function LoadUPModulesPermissions()
 	$context['permissions'] = array();
 	foreach ($perms_text_name as $text_name)
 	{
-		/*	The $txt['ultport_perms_'] localization is language/UltimatePortalCP.YOUR-LANGUAGE.php
-			Search for //Perms - Names	*/
-		$permissions = &$context['permissions'][];
-		$permissions['name'] = $text_name;
-		$permissions['text-name'] = $txt['ultport_perms_'.$text_name];
-
+		$context['permissions'][$text_name] = array(
+			'text-name' => $txt['ultport_perms_'.$text_name],
+		);
 	}
 }
 //Load MemberGroups
@@ -356,7 +352,7 @@ function LoadMemberGroups($group_selected = -99, $call = '')
 	{
 		$context['groups'][0] = array(
 			'id_group' => 0,
-			'group_name' => $txt['membergroups_members'],
+			'group_name' => $txt['up_membergroups_members'],
 			'selected' => (($group_selected == 0) ? 'selected="selected"' : ''),
 		);
 	}
@@ -365,11 +361,22 @@ function LoadMemberGroups($group_selected = -99, $call = '')
 	{
 		$context['groups'][-1] = array(
 			'id_group' => -1,
-			'group_name' => '<strong>'. $txt['membergroups_guests'] .'</strong>',
+			'group_name' => '<strong>'. $txt['up_membergroups_guests'] .'</strong>',
 			'selected' => (($group_selected == -1) ? 'selected="selected"' : ''),
 		);
 	}
 	$smcFunc['db_free_result']($dbresult);
+}
+
+//important hooks
+function up_Hooks_Copy($buffer)
+{
+	global $forum_copyright, $context;
+	$context['copyfor'] = base64_decode('PGJyIC8+DQo8YSB0aXRsZT0iU01GU0lNUExFLmNvbSAtIFBvcnRhbCwgVGhlbWVzLCBtb2RzLCBz
+dXBwb3J0LCBhbGwgZm9yIHlvdXIgU01GIGZvcnVtIiBocmVmPSJodHRwOi8vd3d3LnNtZnNpbXBs
+ZS5jb20vIj5VbHRpbWF0ZSBQb3J0YWwgMC40IKkgMjAxMSBieSBTTUZTaW1wbGUuY29tPC9hPg==');
+	$buffer = str_replace($forum_copyright, $forum_copyright.$context['copyfor'],$buffer);	
+	return $buffer;
 }
 
 function LoadBlocksTable()
@@ -815,11 +822,11 @@ function SystemBlock()
 			$block_system['title'] = $row['title'] . '&nbsp; <strong><em>('. $row['file'] .')</em></strong>';
 			$block_system['active'] = $row['active'];
 			$block_system['activestyle'] = $block_system['active'] ? "windowbg" : "windowbg2"; //Active block highlighting
-			$block_system['permissions'] = '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-perms;id='. $row['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_permission'] .'</a>';
-			$block_system['edit'] = '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=system;sesc=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
-			$block_system['editimage'] = '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=system;sesc=' . $context['session_id'].'"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>';
-			$block_system['delete'] = '<a onclick="return makesurelink()" href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-delete;id='. $row['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';$block_system['edit'] = '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=system;sesc=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
-			$block_system['deleteimage'] = '<a onclick="return makesurelink()" href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-delete;id='. $row['id'] .';sesc=' . $context['session_id'].'"><img alt="'. $txt['ultport_button_delete'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" /></a>';
+			$block_system['permissions'] = '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-perms;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_permission'] .'</a>';
+			$block_system['edit'] = '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=system;'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
+			$block_system['editimage'] = '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=system;'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>';
+			$block_system['delete'] = '<a onclick="return makesurelink()" href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-delete;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';$block_system['edit'] = '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=system;'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
+			$block_system['deleteimage'] = '<a onclick="return makesurelink()" href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-delete;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="'. $txt['ultport_button_delete'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" /></a>';
 			$block_system['type-img'] = '<img alt="PHP" title="PHP" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/icons/bk-php.png"/>';
 		}
 		else
@@ -828,14 +835,14 @@ function SystemBlock()
 			$block_custom = &$context['block-custom'][];
 			$block_custom['id'] = $row['id'];
 			$block_custom['title'] = $row['title'];
-			$block_custom['title_link_edit'] = ($row['personal']==1) ? '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';sesc=' . $context['session_id'].'">'. $row['title'] .'</a>' : '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=created;sesc=' . $context['session_id'].'">'. $row['title'] .'</a>';
+			$block_custom['title_link_edit'] = ($row['personal']==1) ? '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $row['title'] .'</a>' : '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=created;'. $context['session_var'] .'=' . $context['session_id'].'">'. $row['title'] .'</a>';
 			$block_custom['active'] = $row['active'];
 			$block_custom['activestyle'] = $block_custom['active'] ? "windowbg" : "windowbg2"; //Active block highlighting
-			$block_custom['permissions'] = '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-perms;id='. $row['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_permission'] .'</a>';
-			$block_custom['edit'] = ($row['personal']==1) ? '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>' : '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=created;sesc=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
-			$block_custom['editimage'] = ($row['personal']==1) ? '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';sesc=' . $context['session_id'].'"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>' : '<a href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=created;sesc=' . $context['session_id'].'"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>';
-			$block_custom['delete'] = '<a onclick="return makesurelink()" href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-delete;id='. $row['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';
-			$block_custom['deleteimage'] = '<a onclick="return makesurelink()" href="'. $scripturl .'?action=admin;area=ultimate_portal_blocks;sa=blocks-delete;id='. $row['id'] .';sesc=' . $context['session_id'].'"><img alt="'. $txt['ultport_button_delete'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" /></a>';
+			$block_custom['permissions'] = '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-perms;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_permission'] .'</a>';
+			$block_custom['edit'] = ($row['personal']==1) ? '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>' : '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=created;'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
+			$block_custom['editimage'] = ($row['personal']==1) ? '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>' : '<a href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-edit;id='. $row['id'] .';personal='. $row['personal'] .';type-php=created;'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>';
+			$block_custom['delete'] = '<a onclick="return makesurelink()" href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-delete;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';
+			$block_custom['deleteimage'] = '<a onclick="return makesurelink()" href="'. $scripturl .'?action=adminportal;area=ultimate_portal_blocks;sa=blocks-delete;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="'. $txt['ultport_button_delete'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" /></a>';
 
 			//Block type
 			switch($row['personal'])
@@ -899,10 +906,10 @@ function LoadNewsSection()
 			$section['title'] = $row['title'];
 			$section['icon'] = '<img alt="'.$row['title'].'" src="'. $row['icon'] .'" width="35" height="35" />';
 			$section['position'] = $row['position'];
-			$section['edit'] = '<a href="'. $scripturl .'?action=admin;area=up-news;sa=edit-section;id='. $row['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
-			$section['edithref'] = '<a href="'. $scripturl .'?action=admin;area=up-news;sa=edit-section;id='. $row['id'] .';sesc=' . $context['session_id'].'" title="'.$txt['ultport_button_edit'].'"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>';
-			$section['delete'] = '<a style="color:red" onclick="return makesurelink()" href="'. $scripturl .'?action=admin;area=up-news;sa=delete-section;id='. $row['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';
-			$section['deletehref'] = '<a style="color:red" onclick="return makesurelink()" title="'. $txt['ultport_button_delete'] .'" href="'. $scripturl .'?action=admin;area=up-news;sa=delete-section;id='. $row['id'] .';sesc=' . $context['session_id'].'"><img alt="'. $txt['ultport_button_delete'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" /></a>';
+			$section['edit'] = '<a href="'. $scripturl .'?action=adminportal;area=up-news;sa=edit-section;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
+			$section['edithref'] = '<a href="'. $scripturl .'?action=adminportal;area=up-news;sa=edit-section;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'" title="'.$txt['ultport_button_edit'].'"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>';
+			$section['delete'] = '<a style="color:red" onclick="return makesurelink()" href="'. $scripturl .'?action=adminportal;area=up-news;sa=delete-section;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';
+			$section['deletehref'] = '<a style="color:red" onclick="return makesurelink()" title="'. $txt['ultport_button_delete'] .'" href="'. $scripturl .'?action=adminportal;area=up-news;sa=delete-section;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="'. $txt['ultport_button_delete'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" /></a>';
 			
 			$context['last_position'] =	$section['position'];
 		}
@@ -926,7 +933,7 @@ function LoadNews()
 	list($numNews) = $smcFunc['db_fetch_row']($db_count);
 	$smcFunc['db_free_result']($db_count);
 
-	$context['page_index'] = constructPageIndex($scripturl . "?action=admin;area=up-news;sa=admin-news;sesc=" . $context['session_id'], $start, $numNews, $ultimateportalSettings['up_news_limit']);
+	$context['page_index'] = constructPageIndex($scripturl . "?action=adminportal;area=up-news;sa=admin-news;". $context['session_var'] ."=" . $context['session_id'], $start, $numNews, $ultimateportalSettings['up_news_limit']);
 	// Calculate the fastest way to get the messages!
 	$limit = !empty($ultimateportalSettings['up_news_limit']) ? (int)$ultimateportalSettings['up_news_limit'] : 10;
 	$myquery = $smcFunc['db_query']('',"
@@ -944,17 +951,17 @@ function LoadNews()
 			$news = &$context['news-admin'][];
 			$news['id'] = $row['id'];
 			$news['title'] = $row['title'];
-			$news['title-edit'] = '<a href="'. $scripturl .'?action=admin;area=up-news;sa=edit-news;id='. $row['id'] .';sesc=' . $context['session_id'].'">'. $row['title'] .'</a>';
+			$news['title-edit'] = '<a href="'. $scripturl .'?action=adminportal;area=up-news;sa=edit-news;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $row['title'] .'</a>';
 			$news['id_cat'] = $row['id_category'];
-			$news['title-section'] = '<a href="'. $scripturl .'?action=admin;area=up-news;sa=edit-section;id='. $row['id_category'] .';sesc=' . $context['session_id'].'">'. $row['section'] .'</a>';
+			$news['title-section'] = '<a href="'. $scripturl .'?action=adminportal;area=up-news;sa=edit-section;id='. $row['id_category'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $row['section'] .'</a>';
 			$news['id_member'] = $row['id_member'];
 			$news['username'] = $row['username'];
 			$news['body'] = $row['body'];
 			$news['date'] = $row['date'];
-			$news['edit'] = '<a href="'. $scripturl .'?action=admin;area=up-news;sa=edit-news;id='. $row['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
-			$news['edithref'] = '<a href="'. $scripturl .'?action=admin;area=up-news;sa=edit-news;id='. $row['id'] .';sesc=' . $context['session_id'].'" title="'.$txt['ultport_button_edit'].'"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>';
-			$news['delete'] = '<a style="color:red" onclick="return makesurelink()" href="'. $scripturl .'?action=admin;area=up-news;sa=delete-news;id='. $row['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';
-			$news['deletehref'] = '<a style="color:red" onclick="return makesurelink()" title="'. $txt['ultport_button_delete'] .'" href="'. $scripturl .'?action=admin;area=up-news;sa=delete-news;id='. $row['id'] .';sesc=' . $context['session_id'].'"><img alt="'. $txt['ultport_button_delete'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" /></a>';
+			$news['edit'] = '<a href="'. $scripturl .'?action=adminportal;area=up-news;sa=edit-news;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
+			$news['edithref'] = '<a href="'. $scripturl .'?action=adminportal;area=up-news;sa=edit-news;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'" title="'.$txt['ultport_button_edit'].'"><img alt="'.$txt['ultport_button_edit'].'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>';
+			$news['delete'] = '<a style="color:red" onclick="return makesurelink()" href="'. $scripturl .'?action=adminportal;area=up-news;sa=delete-news;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';
+			$news['deletehref'] = '<a style="color:red" onclick="return makesurelink()" title="'. $txt['ultport_button_delete'] .'" href="'. $scripturl .'?action=adminportal;area=up-news;sa=delete-news;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="'. $txt['ultport_button_delete'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" /></a>';
 		}
 	}
 	$smcFunc['db_free_result']($myquery);
@@ -1015,8 +1022,8 @@ function LoadBlockNews()
 		$news['updated-news'] = str_replace('[UPDATED_MEMBER]', $news['author_updated'], $news['updated-news']);
 		$news['updated-news'] = str_replace('[UPDATED_DATE]', $news['date_updated'], $news['updated-news']);
 		$news['view'] = '<img style="vertical-align: middle;" border="0" alt="'. $txt['ultport_button_view'] .'" src="'.$settings['default_images_url'].'/ultimate-portal/view.png" />&nbsp;<a href="'. $scripturl .'?action=news;sa=view-new;id='. $row2['id'] .'">'. $txt['ultport_button_view'] .'</a>';
-		$news['edit'] = '<img style="vertical-align: middle;" alt="'. $txt['ultport_button_edit'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" />&nbsp;<a href="'. $scripturl .'?action=news;sa=edit-new;id='. $row2['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
-		$news['delete'] = '<img style="vertical-align: middle;" border="0" alt="'. $txt['ultport_button_delete'] .'" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" />&nbsp;<a onclick="return makesurelink()" href="'. $scripturl .'?action=news;sa=delete-new;id='. $row2['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';
+		$news['edit'] = '<img style="vertical-align: middle;" alt="'. $txt['ultport_button_edit'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" />&nbsp;<a href="'. $scripturl .'?action=news;sa=edit-new;id='. $row2['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';
+		$news['delete'] = '<img style="vertical-align: middle;" border="0" alt="'. $txt['ultport_button_delete'] .'" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" />&nbsp;<a onclick="return makesurelink()" href="'. $scripturl .'?action=news;sa=delete-new;id='. $row2['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';
 		$news['id_cat'] = $row2['id_cat'];
 		$news['title_cat'] = $row2['title_cat'];
 		$news['icon'] = $row2['icon'];
@@ -1055,7 +1062,7 @@ function up_update_block_perms($id)
 		)
 	);
 	//redirect the Blocks Admin
-	redirectexit('action=admin;area=ultimate_portal_blocks;sa=admin-block;sesc=' . $context['session_id']);
+	redirectexit('action=adminportal;area=ultimate_portal_blocks;sa=admin-block;'. $context['session_var'] .'=' . $context['session_id']);
 }
 
 //Load Image from Ultimate Portal image folder
@@ -1084,38 +1091,24 @@ function load_image_folder($folder = " ", $width = 'width="16"', $height = 'heig
 }
 
 //Add extra headers from index.template.php
-function context_html_headers()
+//$cleditorId => ID textarea
+function context_html_headers($cleditorId = "")
 {
 	global $context, $settings;
 	$context['html_headers'] .= '
-		<!-- TinyMCE -->
-		<script type="text/javascript" src="'. $settings['default_theme_url'] .'/up-editor/jscripts/tiny_mce/tiny_mce.js"></script>
+		'. (!empty($cleditorId) ? '
+		<!-- cleditor -->
+		<link rel="stylesheet" type="text/css" href="'. $settings['default_theme_url'] .'/up-editor/jquery.cleditor.css" />
+		<script src="'. $settings['default_theme_url'] .'/up-editor/jquery.cleditor.min.js"></script>		
 		<script type="text/javascript">
-			tinyMCE.init({
-				// General options
-				mode : "textareas",
-                width : "550",
-				theme : "advanced",
-				plugins : "safari,layer,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,xhtmlxtras",
-				extended_valid_elements : "iframe[src|width|height|name|align]",
-				// Theme options
-				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,formatselect,fontselect,fontsizeselect",
-				theme_advanced_buttons2 : "bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,preview,|,forecolor,backcolor",
-				theme_advanced_buttons3 : "hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
-				theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins",
-				theme_advanced_toolbar_location : "top",
-				theme_advanced_toolbar_align : "left",
-				language : "es",
-				theme_advanced_statusbar_location : "bottom",
-				theme_advanced_resizing : true,
-				// Replace values for the template plugin
-				template_replace_values : {
-					username : "Some User",
-					staffid : "991234"
-				}
+			$(document).ready(function() {
+				$("#'. $cleditorId .'").cleditor({
+					width: "100%"
+				});
 			});
 		</script>
-		<!-- /TinyMCE -->';
+		<!-- /cleditor -->' : '') .'
+	';
 }
 
 //Load the Ultimate Portal Settings
@@ -2029,8 +2022,8 @@ function LoadInternalPage($id, $condition = "WHERE active = 'on'")
 		$ipage['username_updated'] = !empty($row['date_updated']) ? $row['username_updated'] : '';
 		$ipage['profile_updated'] = !empty($row['date_updated']) ? '<a href="'. $scripturl .'?action=profile;u='. $row['id_member_updated'] .'">'. $row['username_updated'] .'</a>' : '';
 		$ipage['read_more'] = '<strong><a href="'. $scripturl .'?action=internal-page;sa='. (isset($context['is_inactive_page']) ? 'view-inactive' : 'view') .';id='. $row['id'] .'">'. $txt['ultport_read_more'] .'</a></strong>';
-		$ipage['edit'] = '<a href="'. $scripturl .'?action=internal-page;sa=edit;id='. $row['id'] .';sesc=' . $context['session_id'].'"><img alt="" style="vertical-align: middle;" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>';
-		$ipage['delete'] = '<a onclick="return makesurelink()" href="'. $scripturl .'?action=internal-page;sa=delete;id='. $row['id'] .';sesc=' . $context['session_id'].'"><img alt="" style="vertical-align: middle;" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" />&nbsp;</a>';
+		$ipage['edit'] = '<a href="'. $scripturl .'?action=internal-page;sa=edit;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="" style="vertical-align: middle;" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" /></a>';
+		$ipage['delete'] = '<a onclick="return makesurelink()" href="'. $scripturl .'?action=internal-page;sa=delete;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="" style="vertical-align: middle;" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" />&nbsp;</a>';
 	}
 	$smcFunc['db_free_result']($myquery);
 }
@@ -2329,8 +2322,8 @@ function MultiBlocksLoads()
 				'mbk_collapse' => $row['mbk_collapse'],
 				'mbk_style' => $row['mbk_style'],
 				'enable' => $row['enable'],
-				'edit' => '<a href="'. $scripturl .'?action=admin;area=multiblock;sa=edit;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="" title="'. $txt['ultport_button_edit'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png"/></a>',
-				'delete' => '<a style="color:red" onclick="return makesurelink()" href="'. $scripturl .'?action=admin;area=multiblock;sa=delete;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="" title="'. $txt['ultport_button_delete'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png"/></a>',
+				'edit' => '<a href="'. $scripturl .'?action=adminportal;area=multiblock;sa=edit;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="" title="'. $txt['ultport_button_edit'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png"/></a>',
+				'delete' => '<a style="color:red" onclick="return makesurelink()" href="'. $scripturl .'?action=adminportal;area=multiblock;sa=delete;id='. $row['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'"><img alt="" title="'. $txt['ultport_button_delete'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png"/></a>',
 			);
 		}
 	}
@@ -2408,4 +2401,56 @@ function SpecificMultiBlocks($id)
 		}
 		$smcFunc['db_free_result']($rbk);
 	}
+}
+
+//create the actions, how?.. hooks integration :)
+function UP_Actions_Hooks(&$actionArray)
+{
+	//hooks... rules...
+	$actionArray += array(
+		'forum' => array('BoardIndex.php', 'BoardIndex'),		
+		'adminportal' => array('AdminUP.php', 'AdminPortalMain'),
+		'ultimateportal' => array('UltimatePortal.php', 'UltimatePortalMain'),
+		'news' => array('UPNews.php', 'UPNewsMain'),		
+		'internal-page' => array('UPInternalPage.php', 'UPInternalPageMain'),	
+	);
+}
+
+//hooks menu buttom.. Ultimate Portal
+function UP_Menu_Buttons_Hooks(&$menu_buttons)
+{
+	global $user_info, $txt, $ultimateportalSettings, $scripturl;
+	
+	//replace home.. 
+	foreach($menu_buttons as $id => $value)
+		if ($id == 'home')
+			$value['title'] = (!empty($ultimateportalSettings['ultimate_portal_enable']) ? (!empty($txt['ultport_home_tab']) ? $txt['ultport_home_tab'] : $txt['home']) : $txt['home']);	
+
+	//add the forum button and the adminportal
+	$menu_buttons += array(
+		'forum' => array(
+			'title' => $txt['ultport_forum_tab'],
+			'href' => $scripturl . '?action=forum',
+			'show' => (!empty($ultimateportalSettings['ultimate_portal_enable']) ? true : false),
+			'sub_buttons' => array(
+			),
+		),	
+		'adminportal' => array(
+			'title' => $txt['adminportal_menu'],
+			'href' => $scripturl . '?action=adminportal',
+			'show' => $user_info['is_admin'],
+			'sub_buttons' => array(
+				'preferences' => array(
+					'title' => $txt['ultport_preferences_title'],
+					'href' => $scripturl . '?action=adminportal;area=preferences',
+					'show' => $user_info['is_admin'],					
+				),
+				'ultimate_portal_blocks' => array(
+					'title' => $txt['ultport_blocks_title'],
+					'href' => $scripturl . '?action=adminportal;area=ultimate_portal_blocks',
+					'show' => $user_info['is_admin'],					
+				),
+			),
+		),
+	);
 }

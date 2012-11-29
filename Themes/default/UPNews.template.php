@@ -116,7 +116,7 @@ function template_show_cat()
 	{
 		$content .= '					
 					<td style="font-size:10px" align="left" width="15%">
-						<img alt="" style="vertical-align: middle;" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/add.png" />&nbsp;<a href="'. $scripturl .'?action=news;sa=add-new;id-cat='. $context['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_add_new'] .'</a>
+						<img alt="" style="vertical-align: middle;" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/add.png" />&nbsp;<a href="'. $scripturl .'?action=news;sa=add-new;id-cat='. $context['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_add_new'] .'</a>
 					</td>';
 	}				
 	$content .= '				
@@ -221,7 +221,7 @@ function template_view_news()
 					';
 	if (!empty($user_info['up-modules-permissions']['news_add']) || $user_info['is_admin'])
 	{
-		$content .= '<div style="display:block;border: 1px dashed #aaa;text-align:center;"><img alt="" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/add.png" />&nbsp;<a href="'. $scripturl .'?action=news;sa=add-new;id-cat='. $context['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_add_new'] .'</a></div>';
+		$content .= '<div style="display:block;border: 1px dashed #aaa;text-align:center;"><img alt="" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/add.png" />&nbsp;<a href="'. $scripturl .'?action=news;sa=add-new;id-cat='. $context['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_add_new'] .'</a></div>';
 	}				
 	if (!empty($context['display-news']))	
 	{
@@ -272,7 +272,7 @@ function template_add_news()
 								'. $context['section'] .'
 							</select></div><hr />
 						
-							<div align="center"><textarea id="elm1" name="elm1" rows="15" cols="80" >'. $context['body'] .'</textarea></div>
+							<div align="center"><textarea id="elm1" name="elm1"></textarea></div>
 	
 							<div align="right"><br /><input type="hidden" name="save" value="ok" />						
 							<input type="hidden" name="id_member" value="'. $user_info['id'] .'" />						
@@ -316,7 +316,7 @@ function template_edit_news()
 							<select size="1" name="id_cat">
 								'. $context['section-edit'] .'
 							</select><br /></div><hr />
-						<div align="center"><textarea id="elm1" name="elm1" rows="15" cols="80" >'. $context['body'] .'</textarea></div>
+						<div align="center"><textarea id="elm1" name="elm1">'. $context['body'] .'</textarea></div>
                       <div><input type="hidden" name="save" value="ok" />						
 							<input type="hidden" name="id" value="'. $context['id'] .'" />											
 							<input type="hidden" name="id_member_updated" value="'. $user_info['id'] .'" />						

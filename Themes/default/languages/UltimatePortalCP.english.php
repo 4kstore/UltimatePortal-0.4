@@ -20,6 +20,7 @@ $txt['ultport_button_select_all'] = 'Select all';
 $txt['ultport_button_go_back'] = 'Return';
 
 //Main CP
+$txt['adminportal_menu'] = 'Admin Portal';
 $txt['main_description'] = 'Welcome, <strong>'. $user_info['username'] .'</strong>!. This is your"<strong>Administration Center of Ultimate Portal</strong>". <br />
 Here you can modify:
 	<ul>
@@ -64,7 +65,7 @@ $txt['main_credits_description'] = '<strong><a href="http://www.smfsimple.com">S
 $txt['ultport_delete_confirmation'] = 'Are you sure you want to delete this?';
 
 //Titles
-$txt['ultport_admin_category_title'] = 'Ultimate Portal CP';
+$txt['ultport_admin_category_title'] = 'Control Panel';
 $txt['ultport_admin_title'] = 'Ultimate Portal - Admin Center';
 $txt['ultport_preferences_title'] = 'Preferences';
 $txt['ultport_blocks_title'] = 'Managing Modules';
@@ -170,6 +171,8 @@ $txt['ultport_admin_edit_language_file'] = 'Language File';
 $txt['ultport_admin_permissions_settings_title'] = 'Setting Permissions';
 $txt['ultport_admin_permissions_settings_subtitle'] = 'Sets the permissions for this group';
 $txt['ultport_admin_perms_groups'] = 'Select to edit the permissions group';
+$txt['up_membergroups_members'] = 'Regular Member';
+$txt['up_membergroups_guests'] = 'Guest';
 
 //Perms - Names
 $txt['ultport_perms_user_posts_add'] = 'Can Add input in Post great Module?';

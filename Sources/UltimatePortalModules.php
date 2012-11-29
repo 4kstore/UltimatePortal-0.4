@@ -10,41 +10,12 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 	
-function UltimatePortalMainModules()
-{
-	global $sourcedir, $context;
-	$context['ultimate_portal_initialized'] = false;	
-	ultimateportalSettings();
-	loadtemplate('UltimatePortalModules');
-	if (loadlanguage('UltimatePortalModules') == false)
-		loadLanguage('UltimatePortalModules','english');
-
-	require_once($sourcedir . '/Security.php');
-	require_once($sourcedir . '/Load.php');
-	require_once($sourcedir . '/Subs-UltimatePortal.php');
-	
-	$areas = array(		   
-		'up-news' => array('', 'ShowNews'),		
-		'board-news' => array('', 'ShowBoardNews'),			
-		'internal-page' => array('', 'ShowInternalPage'),	
-	);
-
-	$_REQUEST['area'] = isset($_REQUEST['area']) && isset($areas[$_REQUEST['area']]) ? $_REQUEST['area'] : 'preferences';
-	$context['admin_area'] = $_REQUEST['area'];
-
-	if (!empty($areas[$_REQUEST['area']][0]))
-		require_once($sourcedir . '/' . $areas[$_REQUEST['area']][0]);
-
-	$areas[$_REQUEST['area']][1]();
-}
 //Modules - Area News
 function ShowNews()
 {
 	global $context, $txt;
 
-	if (!allowedTo('ultimate_portal_modules'))
-		isAllowedTo('ultimate_portal_modules');
-		
+	//load template
 	loadTemplate('UltimatePortalModules');
 	
 	$subActions = array(
@@ -61,7 +32,7 @@ function ShowNews()
 	);	
 	$_REQUEST['sa'] = isset($_REQUEST['sa']) && isset($subActions[$_REQUEST['sa']]) ? $_REQUEST['sa'] : 'ns-main';
 	$context['sub_action'] = $_REQUEST['sa'];
-	$context[$context['admin_menu_name']]['tab_data'] = array(
+	$context[$context['adminportal_menu_name']]['tab_data'] = array(
 		'title' => $txt['ultport_admin_news_title'] . ' - ' . $txt['ultport_admin_module_title2'],
 		'description' => $txt['ultport_admin_news_descrip'],
 		'tabs' => array(
@@ -86,6 +57,7 @@ function ShowNews()
 function ShowNewsMain()
 {
 	global $context, $txt;
+	
 	if(empty($_POST['save']))
 		checkSession('get');	
 
@@ -161,7 +133,7 @@ function ShowAddSection()
 				'position' => $position,
 			)
 		);
-		redirectexit('action=admin;area=up-news;sa=section;sesc=' . $context['session_id']);		
+		redirectexit('action=adminportal;area=up-news;sa=section;'. $context['session_var'] .'=' . $context['session_id']);		
 	}
 	//only load the $context['last_position']
 	LoadNewsSection();
@@ -204,7 +176,7 @@ function EditSection()
 				)
 			);
 		}
-		redirectexit('action=admin;area=up-news;sa=section;sesc=' . $context['session_id']);		
+		redirectexit('action=adminportal;area=up-news;sa=section;'. $context['session_var'] .'=' . $context['session_id']);		
 	}
 	$id = !empty($_REQUEST['id']) ? (int)$smcFunc['db_escape_string']($_REQUEST['id']) : '';	
 	if(!empty($id))
@@ -254,7 +226,7 @@ function DeleteSection()
 			'id' => $id,
 		)
 	);
-	redirectexit('action=admin;area=up-news;sa=section;sesc=' . $context['session_id']);
+	redirectexit('action=adminportal;area=up-news;sa=section;'. $context['session_var'] .'=' . $context['session_id']);
 }
 
 //Modules - Area News - Sect: Config Add - Delete - News  
@@ -301,7 +273,7 @@ function ShowAddNews()
 					'date' => $date,
 				)
 			);		
-			redirectexit('action=admin;area=up-news;sa=admin-news;sesc=' . $context['session_id']);
+			redirectexit('action=adminportal;area=up-news;sa=admin-news;'. $context['session_var'] .'=' . $context['session_id']);
 		}		
 	}
 	//Load the sections
@@ -314,7 +286,7 @@ function ShowAddNews()
 		$context['section'] .= '<option value="'. $row['id'] .'">'. $row['title'] .'</option>';	
 		
 	//Load the html headers and load the Editor
-	context_html_headers();
+	context_html_headers("elm1");
 	
 	$context['sub_template'] = 'add_news';
 	$context['page_title'] = $txt['ultport_admin_news_title'] . ' - ' . $txt['ultport_admin_add_news_title2'] . ' - ' . $txt['ultport_admin_module_title2'];
@@ -368,7 +340,7 @@ function EditUPNews()
 			);
 		}		
 		//redirect the News Admin Section
-		redirectexit('action=admin;area=up-news;sa=admin-news;sesc=' . $context['session_id']);		
+		redirectexit('action=adminportal;area=up-news;sa=admin-news;'. $context['session_var'] .'=' . $context['session_id']);		
 	}
 	//Load the News
 	$id = !empty($_REQUEST['id']) ? (int)$smcFunc['db_escape_string']($_REQUEST['id']) : '';	
@@ -429,7 +401,7 @@ function DeleteNews()
 			'id' => $id,
 		)
 	);	
-	redirectexit('action=admin;area=up-news;sa=admin-news;sesc=' . $context['session_id']);	
+	redirectexit('action=adminportal;area=up-news;sa=admin-news;'. $context['session_var'] .'=' . $context['session_id']);	
 }
 
 //Modules - Area Board News
@@ -437,16 +409,14 @@ function ShowBoardNews()
 {
 	global $context, $txt;
 
-	if (!allowedTo('ultimate_portal_modules'))
-		isAllowedTo('ultimate_portal_modules');
-		
+	//load template
 	loadTemplate('UltimatePortalModules');
 	$subActions = array(
 		'bn-main' => 'ShowBoardNewsMain',
 	);	
 	$_REQUEST['sa'] = isset($_REQUEST['sa']) && isset($subActions[$_REQUEST['sa']]) ? $_REQUEST['sa'] : 'bn-main';
 	$context['sub_action'] = $_REQUEST['sa'];
-	$context[$context['admin_menu_name']]['tab_data'] = array(
+	$context[$context['adminportal_menu_name']]['tab_data'] = array(
 		'title' => $txt['ultport_admin_board_news_title'] . ' - ' . $txt['ultport_admin_module_title2'],
 		'description' => $txt['ultport_admin_board_news_descrip'],
 		'tabs' => array(
@@ -485,7 +455,7 @@ function ShowBoardNewsMain()
 		$configUltimatePortalVar['board_news_view'] = $board_news_view;
 		updateUltimatePortalSettings($configUltimatePortalVar, 'config_board_news');		
 
-		redirectexit('action=admin;area=board-news;sa=bn-main;sesc=' . $context['session_id']);
+		redirectexit('action=adminportal;area=board-news;sa=bn-main;'. $context['session_var'] .'=' . $context['session_id']);
 	}
 	up_loadJumpTo();
 	$context['sub_template'] = 'board_news_main';
@@ -495,9 +465,8 @@ function ShowBoardNewsMain()
 function ShowInternalPage()
 {
 	global $context, $txt;
-	if (!allowedTo('ultimate_portal_modules'))
-		isAllowedTo('ultimate_portal_modules');
-		
+	
+	//load template		
 	loadTemplate('UltimatePortalModules');	
 	//Load subactions for the ultimate portal Internal Page
 	$subActions = array(
@@ -506,7 +475,7 @@ function ShowInternalPage()
 	
 	$_REQUEST['sa'] = isset($_REQUEST['sa']) && isset($subActions[$_REQUEST['sa']]) ? $_REQUEST['sa'] : 'main';
 	$context['sub_action'] = $_REQUEST['sa'];
-	$context[$context['admin_menu_name']]['tab_data'] = array(
+	$context[$context['adminportal_menu_name']]['tab_data'] = array(
 		'title' => $txt['ipage_title'] . ' - ' . $txt['ultport_admin_module_title2'],
 		'description' => '',
 		'tabs' => array(

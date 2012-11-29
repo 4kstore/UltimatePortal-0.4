@@ -9,7 +9,7 @@
 function template_main()
 {
 	global $context, $scripturl, $txt, $settings, $ultimateportalSettings, $user_info;
-
+	
 	$content = "
 		<script type=\"text/javascript\">
 			function makesurelink() {
@@ -23,8 +23,8 @@ function template_main()
 
 	// Create the button set...
 	$normal_buttons = array(
-		'add_html' => array('condition' => ($user_info['is_admin'] || !empty($user_info['up-modules-permissions']['ipage_add'])), 'text' => 'up_ipage_add_html', 'lang' => true, 'url' => $scripturl .'?action=internal-page;sa=add;type=html;sesc=' . $context['session_id'].''),
-		'add_bbc' => array('condition' => ($user_info['is_admin'] || !empty($user_info['up-modules-permissions']['ipage_add'])), 'text' => 'up_ipage_add_bbc', 'lang' => true, 'url' => $scripturl .'?action=internal-page;sa=add;type=bbc;sesc=' . $context['session_id'].''),
+		'add_html' => array('condition' => ($user_info['is_admin'] || !empty($user_info['up-modules-permissions']['ipage_add'])), 'text' => 'up_ipage_add_html', 'lang' => true, 'url' => $scripturl .'?action=internal-page;sa=add;type=html;'. $context['session_var'] .'=' . $context['session_id'].''),
+		'add_bbc' => array('condition' => ($user_info['is_admin'] || !empty($user_info['up-modules-permissions']['ipage_add'])), 'text' => 'up_ipage_add_bbc', 'lang' => true, 'url' => $scripturl .'?action=internal-page;sa=add;type=bbc;'. $context['session_var'] .'=' . $context['session_id'].''),
 	);
 	$content .= '
 		<div class="UPpagesection">
@@ -176,7 +176,7 @@ function template_add()
 				</dl>';
 				if ($context['type_ipage'] == 'html')
 					$content .='
-					<div><textarea id="elm1" name="elm1" cols="60" rows="10"></textarea></div>';
+					<div><textarea id="elm1" name="elm1"></textarea></div>';
 
 				//Internal Page BBC
 				if ($context['type_ipage'] == 'bbc')

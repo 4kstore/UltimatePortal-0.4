@@ -13,29 +13,17 @@ function UPNewsMain()
 {
 	global $sourcedir, $context, $txt;
 	global $ultimateportalSettings;
-	
 	//Inicialized the Ultimate Portal?
 	$context['ultimate_portal_initialized'] = true;	
-
 	// Load UltimatePortal Settings
 	ultimateportalSettings();
-	
 	// Load UltimatePortal template
 	loadtemplate('UPNews');
 	// Load Language
-	if (loadlanguage('UPNews') == false)
-		loadLanguage('UPNews','english');
-
+	loadLanguage('UPNews');
 	//Is active the NEWS module?
 	if(empty($ultimateportalSettings['up_news_enable']))
 		fatal_lang_error('ultport_error_no_active_news',false);
-
-	//Load Important Files
-	require_once($sourcedir . '/Security.php');
-	require_once($sourcedir . '/Load.php');
-	require_once($sourcedir . '/Subs-UltimatePortal.php');
-	require_once($sourcedir . '/Subs-UltimatePortal-Init-Blocks.php');	
-	
 	//Load subactions for the Ultimate Portal - Module NEWS
 	$subActions = array(
 		'main' => 'ShowNewsMain',
@@ -44,13 +32,9 @@ function UPNewsMain()
 			'add-new' => 'AddNew',		
 			'edit-new' => 'EditNew',
 			'delete-new' => 'DeleteNew',
-	);
-	
+	);	
 	$_REQUEST['sa'] = isset($_REQUEST['sa']) && isset($subActions[$_REQUEST['sa']]) ? $_REQUEST['sa'] : 'main';
-
 	$subActions[$_REQUEST['sa']]();	
-
-
 }
 
 function ShowNewsMain()
@@ -167,8 +151,8 @@ function ShowCat()
 		$news['updated-news'] = str_replace('[UPDATED_MEMBER]', $news['author_updated'], $news['updated-news']);
 		$news['updated-news'] = str_replace('[UPDATED_DATE]', $news['date_updated'], $news['updated-news']);
 		$news['view'] = '<img alt="'. $txt['ultport_button_view'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/view.png" />&nbsp;<a href="'. $scripturl .'?action=news;sa=view-new;id='. $row2['id'] .'">'. $txt['ultport_button_view'] .'</a>';		
-		$news['edit'] = '<img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" alt="" />&nbsp;<a href="'. $scripturl .'?action=news;sa=edit-new;id='. $row2['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';		
-		$news['delete'] = '<img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" alt="" />&nbsp;<a onclick="return makesurelink()" href="'. $scripturl .'?action=news;sa=delete-new;id='. $row2['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';				
+		$news['edit'] = '<img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" alt="" />&nbsp;<a href="'. $scripturl .'?action=news;sa=edit-new;id='. $row2['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';		
+		$news['delete'] = '<img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" alt="" />&nbsp;<a onclick="return makesurelink()" href="'. $scripturl .'?action=news;sa=delete-new;id='. $row2['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';				
 	}
 
 	//News Link-tree
@@ -231,8 +215,8 @@ function ViewNew()
 		$news['updated-news'] = str_replace('[UPDATED_MEMBER]', $news['author_updated'], $news['updated-news']);
 		$news['updated-news'] = str_replace('[UPDATED_DATE]', $news['date_updated'], $news['updated-news']);
 		$news['view'] = '<img alt="'. $txt['ultport_button_view'] .'" border="0" src="'.$settings['default_images_url'].'/ultimate-portal/view.png" />&nbsp;<a href="'. $scripturl .'?action=news;sa=view-new;id='. $row2['id'] .'">'. $txt['ultport_button_view'] .'</a>';		
-		$news['edit'] = '<img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" alt="" />&nbsp;<a href="'. $scripturl .'?action=news;sa=edit-new;id='. $row2['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';		
-		$news['delete'] = '<img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" alt="" />&nbsp;<a onclick="return makesurelink()" href="'. $scripturl .'?action=news;sa=delete-new;id='. $row2['id'] .';sesc=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';				
+		$news['edit'] = '<img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/edit.png" alt="" />&nbsp;<a href="'. $scripturl .'?action=news;sa=edit-new;id='. $row2['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_edit'] .'</a>';		
+		$news['delete'] = '<img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/delete.png" alt="" />&nbsp;<a onclick="return makesurelink()" href="'. $scripturl .'?action=news;sa=delete-new;id='. $row2['id'] .';'. $context['session_var'] .'=' . $context['session_id'].'">'. $txt['ultport_button_delete'] .'</a>';				
 	}
 
 	//Load the section
@@ -321,7 +305,7 @@ function AddNew()
 	}
 	
 	//Load the html headers and load the Editor - Source/Subs-UltimatePortal.php
-	context_html_headers();
+	context_html_headers("elm1");
 
 	//News Link-tree
 	$context['news-linktree'] = '&nbsp;<img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/open_linktree.gif" alt="" />&nbsp;<a href="'. $scripturl .'?action=news">'. $txt['up_module_news_title'] .'</a> &raquo; '. $context['title-section'] .' <br /><img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/linktree_side.gif" alt="" />&nbsp;'. $txt['up_module_news_add'];	
@@ -420,7 +404,7 @@ function EditNew()
 	}
 	
 	//Load the html headers and load the Editor - Source/Subs-UltimatePortal.php
-	context_html_headers();
+	context_html_headers("elm1");
 
 	//News Link-tree
 	$context['news-linktree'] = '&nbsp;<img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/open_linktree.gif" alt="" />&nbsp;<a href="'. $scripturl .'?action=news">'. $txt['up_module_news_title'] .'</a> &raquo; '. $section .'<br /><img border="0" src="'.$settings['default_images_url'].'/ultimate-portal/linktree_side.gif" alt="" />&nbsp;'. $txt['up_module_news_edit'] . '&nbsp;<em>('. $context['title-news'] . ')</em>';	
